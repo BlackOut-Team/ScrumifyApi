@@ -1,0 +1,80 @@
+{% extends'baseF.html.twig' %}
+
+
+
+{% block items %}
+
+
+
+
+
+
+        {{ form_start(edit_form) }}
+
+
+
+
+                        <div class="animatedParent animateOnce" style="width: 750%">
+                            <div class="container-fluid my-3">
+                                <div class="row">
+                                    <div class="col-md-7">
+                                        <div class="card" >
+                                            <div class="card-body b-b">
+                                                <h4>Edit feature</h4>
+                                                <form class="form-material">
+                                                     <div class="body">
+                                                        <div class="row clearfix">
+                                                            <div class="col-sm-12">
+                                                                <div class="form-group">
+                                                                    <div class="form-line">
+                                                                        <label class="col-3">Feature Title</label>
+                                                                        {{ form_widget(edit_form.name, {'attr': {'class': 'form-control col'}}) }}
+                                                                     </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <div class="form-line">
+                                                                        <label class="col-3">Status</label>
+                                                                        {{ form_widget(edit_form.etat, {'attr': {'class': 'form-control col'}}) }}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="card-bottom">
+
+                                                                    {{ form_widget(edit_form.submit, {'attr': {'class': 'btn btn-primary'}}) }}
+
+                                                                </div>
+
+
+                                                             </div>
+                                                        </div>
+
+
+
+
+                                                            <div class="card-bottom">
+
+
+                                                            </div>
+                                                         {{ form_end(edit_form) }}
+
+                                                     </div>
+                                                </form>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'baseF.html.twig' %}
+
+                            {% block contents %}
+                                {% block row %}
+                                    <ul class="nav responsive-tab nav-material nav-material-white" id="v-pills-tab">
+                                        <li>
+                                            <a class="nav-link active" id="v-pills-1-tab" data-toggle="pill" >
+                                                <i class="icon icon-puzzle-piece"></i>Features</a>
+                                        </li>
+                                    </ul>
+
+
+
+
+                                {% endblock %}
+
+     {% block items %}
+         <div>
+             <a href="{{ path('feature_add', {'id':sprint.id} ) }}"><i class="icon-plus " style="-webkit-text-fill-color: #16CABD;font-size: 24px;letter-spacing: 10px;" ></i></a>
+         </div>
+         <br>
+
+                 {% for feature in features %}
+
+
+                     {% if feature.isDeleted != 1 %}
+
+                                            <div class="card card-block shadow1 d-flex"  style="width:420%;" >
+                                            <div class="p-4">
+                                                <div class="float-left" >
+
+                                                </div>
+                                                <div class="counter-title">
+                                                    <a  href="{{ path('userstory_index' , { 'id': feature.id } )}}">
+                                                    <h5 data-filter-by="text" class="H5-filter-by-text"> {{ feature.name }}</h5>
+                                                    </a>
+                                                </div>
+                                                <div class="card-footer right-side" style="margin-left: 700Px;background-color: transparent;">
+                                                    <a href="{{ path('feature_delete', {'id':feature.id} ) }}"><i class="icon-archive " style="-webkit-text-fill-color: #16CABD;font-size: 24px;letter-spacing: 10px;" ></i></a>
+                                                    <a href="{{ path('feature_edit', {'id':feature.id }) }}"><i class="icon-edit " style="-webkit-text-fill-color: #16CABD;  font-size: 24px;letter-spacing: 10px;"></i></a>
+                                                </div>
+
+                                             </div>
+
+                                            </div>
+                     <br>
+{% endif %}
+                 {% endfor %}
+
+
+       {% endblock %}
+{% endblock %}

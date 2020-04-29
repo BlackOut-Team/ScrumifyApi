@@ -1,0 +1,60 @@
+{% extends'baseF.html.twig' %}
+{% block head %}
+    {{ parent() }}
+    <style type="text/css">
+        .important { color: #336699; }
+    </style>
+{% endblock %}
+{% block contents %}
+
+    <div class="row">
+        <div class="col-12">
+            <div class="box">
+                <div class="box-header" style="margin-top: 22px">
+                    <h3 class="box-title"> Userstories </h3>
+                    <a class="dropdown-item" href="{{ path('deleted_feature') }}">Deleted</a>
+
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body table-responsive no-padding">
+
+                    <table class="table table-striped">
+                        <tbody>
+                        <tr>
+                            <th style="width: 10px">ID</th>
+                            <th>Description</th>
+                            <th>Priority</th>
+                            <th style="width: 40px">Story point</th>
+                            <th>state</th>
+
+
+                        </tr>
+                        {% for userstory in userstories %}
+                            <tr>
+                                <td>{{ userstory.id}}</td>
+                                <td>{{ userstory.description}}</td>
+                                <td>{{ userstory.priority }}</td>
+                                <td>{{ userstory.storyPoint}}</td>
+                                <td>{{ userstory.etat}}</td>
+
+
+
+                                {% if userstory.etat==0 %}
+
+                                <td><span class="badge text-white bg-green" >Active</span>
+
+
+
+
+                                    {% endif %}
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+    </div>
+{% endblock %}

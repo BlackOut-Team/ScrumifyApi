@@ -1,0 +1,101 @@
+{% extends'baseF.html.twig' %}
+
+
+{% block contents %}
+
+    {% block row %}
+
+        <ul class="nav responsive-tab nav-material nav-material-white" id="v-pills-tab">
+            <li>
+                <a class="nav-link active" id="v-pills-1-tab" data-toggle="pill" href="#v--1">
+                    <i class="icon icon-group"></i>Teams</a>
+            </li>
+        </ul>
+        <div>
+            <a class="btn btn-primary" href="{{ path('pdfexample') }}">Export to PDF</a>
+            <a data-toggle="modal" data-target="#project-add-modal"><i class="icon icon-plus" style="-webkit-text-fill-color: #FFFFFF;font-size: 24px;letter-spacing: 10px;" ></i></a>
+
+        </div>
+    {% endblock %}
+
+
+    {% block items %}
+
+                        {% for con in con %}
+                            {% if con.ind != 1 %}
+                         <div class="card card-block shadow1 d-flex"  style="width:420%" >
+                            <div class="p-4" >
+                                <div class="counter-title">
+                                    <a href="{{ path('affiche_members',{'id':con.id}) }}">
+                                        <h5 data-filter-by="text" class="H5-filter-by-text"> Team Name: {{ con.name }}</h5>
+                                        <span  class="text-small" data-filter-by="text"> Creation Date: {{ con.created |date("m/d/Y")}}</span>
+                                        <br>
+                                        <span  class="text-small" data-filter-by="text"> Updated Date:  {{ con.updated|date("m/d/Y") }}</span>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="card-footer right-side" style="margin-left:700Px;background-color:transparent;">
+                                <a href="{{ path('archive_team', {'id': con.id}) }}"><i class="icon-archive " style="-webkit-text-fill-color: #16CABD;font-size: 24px;letter-spacing: 10px;"></i></a>
+                                <a href="{{ path('edit_team', {'id': con.id}) }}"><i class="icon-edit " style="-webkit-text-fill-color: #16CABD; font-size: 24px;letter-spacing: 10px;"></i></a>
+                                <a href="{{ path('affecter', {'id': con.id}) }}"><i class="icon-user-plus " style="-webkit-text-fill-color: #16CABD; font-size: 24px;letter-spacing: 10px;"></i></a>
+
+                            </div>
+                         </div>
+                            <br>
+
+                            {% endif %}
+                        {% endfor %}
+
+
+        <div class="modal fade" id="project-add-modal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">New Team</h5>
+                        <button type="button" class="close btn btn-round" data-dismiss="modal" aria-label="Close">
+                            <i class="icon icon-close2"></i>
+                        </button>
+                    </div>
+                    <!--end of modal head-->
+
+                    <div class="modal-body">
+
+
+                        <div class="tab-content">
+                            <div class="tab-pane fade show active" id="project-add-details" role="tabpanel">
+                                <h6>General Details</h6>
+                                <div class="form-group row align-items-center">
+                                    <label class="col-3">Team name</label>
+                                    {{ form_start(form) }}
+                                    {{ form_widget(form.name ,{'attr': {'class': 'form-control col'}})}}
+                                </div>
+
+                                <hr>
+
+                                <div class="form-group row align-items-center">
+
+                                    <label class="col-3">Ajouter</label>
+
+
+                                    {{ form_widget(form.Ajouter,{'attr': {'class': 'form-control col'}})}}
+                                    {{ form_end(form) }}
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+                <!--end of modal body-->
+                <div class="modal-footer">
+
+                </div>
+            </div>
+        </div>
+
+
+
+
+    {% endblock %}
+{% endblock %}

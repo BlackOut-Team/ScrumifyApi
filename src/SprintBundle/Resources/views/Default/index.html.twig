@@ -1,0 +1,73 @@
+{% extends'baseF.html.twig' %}
+
+
+
+{% block row %}
+    <ul class="nav responsive-tab nav-material nav-material-white" id="v-pills-tab">
+        <li>
+            <a class="nav-link active" id="v-pills-1-tab" data-toggle="pill" href="#v-pills-1">
+                <i class="icon icon-puzzle-piece"></i>Sprints of {{ project.name }}</a>
+        </li>
+    </ul>
+
+{% endblock %}
+
+                            {% block contents %}
+
+                                {% block items %}
+
+
+                                    <div>
+                                        <a href="{{ path('addSprint', {'id':project.id} ) }}"><i class="icon-plus " style="-webkit-text-fill-color: #16CABD;font-size: 24px;letter-spacing: 10px;" ></i></a>
+                                    </div>
+
+
+                                    {% for sprint in sprint %}
+
+                                        {% if sprint.etat != 0 %}
+
+                                        <div class="card card-block shadow1 d-flex"  style="width:320%;background-color: #9cdbd1;opacity: 80%" >
+                                            <div class="p-4">
+                                                <div class="float-left" >
+
+                                                </div>
+
+
+                                                <div class="counter-title">
+                                                    <a  href="{{ path('feature_index' , { 'id': sprint.id } )}}"">
+                                                        <h5 data-filter-by="text" class="H5-filter-by-text"> {{ sprint.name }}</h5>
+                                                        {{ sprint.description }}
+                                                    </a>
+                                                </div>
+
+                                                <span class="text-small" data-filter-by="text">Starts  {{ sprint.created | date('d-M-Y') }}</span>
+                                                                <br>
+                                                <span class="text-small" data-filter-by="text">Due {{ sprint.duedate | date('d-M-Y') }}</span>
+                                            </div>
+
+                                            <div class="card-footer right-side" style="margin-left: 500Px;background-color: transparent;">
+                                                <a href="{{ path('archiverSprint', {'projet':project.id , 'sprint' : sprint.id}) }}"><i class="icon-archive " style="-webkit-text-fill-color: #16CABD;font-size: 24px;letter-spacing: 10px;" ></i></a>
+
+                                                <a href="{{ path('editSprint', {'projet':project.id , 'sprint' : sprint.id}) }}"><i class="icon-edit " style="-webkit-text-fill-color: #16CABD;  font-size: 24px;letter-spacing: 10px;"></i></a>
+
+
+                                            </div>
+
+                                            <div class="progress progress-xs r-0">
+                                                <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25"
+                                                     aria-valuemin="0" aria-valuemax="128"></div>
+                                            </div>
+                                        </div>
+                                        <br>
+
+                                        {% endif %}
+                                           {% endfor %}
+
+
+
+
+
+
+
+                                            {% endblock %}
+                                        {% endblock %}

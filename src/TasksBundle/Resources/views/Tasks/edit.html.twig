@@ -1,0 +1,166 @@
+{% extends'baseF.html.twig' %}
+
+
+
+
+    {% block row %}
+
+        <ul class="nav responsive-tab nav-material nav-material-white" id="v-pills-tab">
+            <li>
+                <a class="nav-link active" id="v-pills-1-tab" data-toggle="pill" href="#v-pills-1">
+                    <i class="icon icon-puzzle-piece"></i>Scrum Board </a>
+            </li>
+        </ul>
+
+    {% endblock %}
+    {% block items %}
+
+
+
+
+
+
+
+{{ form_start(edit_form, {'multipart': true}) }}
+
+<div class="animatedParent animateOnce" style="width: 750%">
+    <div class="container-fluid my-3">
+        <div class="row">
+            <div class="col-md-7">
+<div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit  Task</h5>
+            </div>
+            <!--end of modal head-->
+            <ul class="nav nav-tabs nav-fill" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="task-add-details-tab" data-toggle="tab" href="#task-add-details" role="tab" aria-controls="task-add-details" aria-selected="true">Details</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="task-add-members-tab" data-toggle="tab" href="#task-add-members" role="tab" aria-controls="task-add-members" aria-selected="false">Members</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="task-add-members-tab" data-toggle="tab" href="#task-add-media" role="tab" aria-controls="task-add-members" aria-selected="false">Media</a>
+                </li>
+            </ul>
+            <div class="modal-body">
+
+                <div class="tab-content">
+                    <!--formulaire ajout task -->
+
+                    <div class="tab-pane fade show active" id="task-add-details" role="tabpanel">
+                        <h6>General Details</h6>
+                        <div class="form-group row align-items-center">
+                            <label class="col-3">Title</label>
+                            {{ form_widget(edit_form.title, {'attr': {'class': 'form-control col'}}) }}
+
+                        </div>
+                        <div class="form-group row align-items-center">
+                            <label class="col-3">Priority</label>
+                            {{ form_widget(edit_form.priority, {'attr': {'class': 'form-control col'}}) }}
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-3">Description</label>
+                            {{ form_widget(edit_form.description, {'attr': {'class': 'form-control col'}}) }}
+                        </div>
+                        <hr>
+                        <div class="form-group row align-items-center">
+                            <label class="col-3">Due Date</label>
+                            {{ form_widget(edit_form.finished, {'attr': {'class': 'form-control col'}}) }}
+
+                        </div>
+                        <div class="alert alert-warning text-small" role="alert">
+                            <span>You can change due dates at any time.</span>
+                        </div>
+                    </div>
+
+                    <!-- end form-->
+                    <div class="tab-pane fade" id="task-add-members" role="tabpanel">
+                        <div class="users-manage" data-filter-list="form-group-users">
+
+                            <div class="input-group input-group-round">
+                                <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                  <i class="material-icons">filter_list</i>
+                                </span>
+                                </div>
+                                <input type="search" class="form-control filter-list-input" placeholder="Filter members" aria-label="Filter Members">
+                            </div>
+                            <div class="form-group-users">
+
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="task-user-1" checked>
+                                    <label class="custom-control-label" for="task-user-1">
+                                  <span class="d-flex align-items-center">
+                                    <img alt="Claire Connors" src="{{ asset('assets/img/avatar-female-1.jpg') }}" class="avatar mr-2" />
+                                    <span class="h6 mb-0" data-filter-by="text">Claire Connors</span>
+                                  </span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--page files-->
+                    <div class="tab-pane fade" id="task-add-media" role="tabpanel">
+                        <div class="users-manage" data-filter-list="form-group-users">
+
+                            <div class="content-list">
+                                <div class="row content-list-head">
+                                    <div class="col-auto">
+                                        <h3>Files</h3>
+                                    </div>
+
+                                </div>
+                                <!--end of content list head-->
+                                <div class="content-list-body">
+
+                                    <div  >
+                                        <input type="file"  class="dropzone dz-clickable" name="file">
+                                    </div>
+
+                                    <ul class="list-group list-group-activity dropzone-previews flex-column-reverse">
+                                        <!--kaaba affiche file -->
+                                        {% for m in m %}
+                                        <li class="list-group-item" data-t="null" data-i="null" data-l="null" data-e="null">
+                                            <div class="media align-items-center">
+                                                <div class="media-body d-flex justify-content-between align-items-center">
+                                                    <div>
+                                                        <a href={{ m.path }} data-filter-by="text" class="A-filter-by-text">{{m.name}}</a>
+                                                        <br>
+                                                        <span class="text-small SPAN-filter-by-text" data-filter-by="text">{{m.type}}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+
+
+                                </div>
+                            </div>
+
+                        </div>
+          <!--end page file-->
+                    </div>
+                </div>
+            </div>
+            <!--end of modal body-->
+            <div class="modal-footer">
+                <input class="btn btn-primary" type="submit" value="ok">
+            </div>
+        </div>
+
+</div>
+            </div>
+    </div>
+    </div>
+</div>>
+        {{ form_end(edit_form) }}
+
+
+
+
+{% endblock %}

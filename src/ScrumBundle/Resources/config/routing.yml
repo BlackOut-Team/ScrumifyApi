@@ -1,0 +1,21 @@
+addProject:
+    path:   /Add
+    defaults: { _controller: ScrumBundle:Default:AddP }
+project_homepage:
+    path:   /showP
+    defaults: { _controller: ScrumBundle:Default:showP }
+editProject:
+    path:   /EditP/{id}
+    defaults: { _controller: ScrumBundle:Default:editP }
+archiverProject:
+    path:   /archiver/{id}
+    defaults: { _controller: ScrumBundle:Default:archiverP }
+showProject:
+    path:   /projects
+    defaults: { _controller: ScrumBundle:Default:showP }
+desarchiverProject:
+    path:   /undelete/{id}
+    defaults: { _controller: ScrumBundle:Default:desarchiverP }
+chart:
+    path:   /chart
+    defaults: { _controller: ScrumBundle:Default:chart }

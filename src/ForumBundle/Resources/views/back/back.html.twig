@@ -1,0 +1,102 @@
+{% extends "baseF.html.twig" %}
+{% block contents %}
+<div class="col-12">
+    <div class="box">
+        <div class="box-header">
+            <h3 class="box-title mt-5">Forum quetions</h3>
+            <div class="box-tools">
+                <div class="input-group input-group-sm" style="width: 150px;">
+                    <input name="table_search" class="form-control float-right" placeholder="Search" type="text">
+                    <div class="input-group-btn">
+                        <button type="submit" class="btn btn-secondary"><i class="icon-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body table-responsive no-padding">
+            <table class="table table-hover">
+                <tbody>
+                <tr>
+                    <th>ID</th>
+                    <th>User</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Title</th>
+                    <th>answers</th>
+                    <th>delete</th>
+                </tr>
+                {% for q in questions %}
+                <tr>
+                    <td>{{ q.id }}</td>
+                    <td>{{ q.User.username }}</td>
+                    <td>11-7-2014</td>
+                    <td><span class="badge text-white badge text-white-pill badge text-white-success bg-blue">Approved</span>
+                    </td>
+                    <td>{{ q.title }}</td>
+                    <td><a href="{{ path('_display_back_answer', {'question' : q.id}) }}" ><span class="badge text-white badge text-white-pill badge text-white-success bg-green">view</span></a></td>
+                    <td><a href="{{ path('_delete_question', {'id' : q.id}) }}" ><span class="badge text-white badge text-white-pill badge text-white-success bg-red">delete</span></a></td>
+
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {{ form_start(f) }}
+
+        {{ form_row(f._token) }}
+        <div class="form-group w-25 center ">
+            {{ form_widget(f.cname, {'attr': {'class': 'form-control', "id":"inputTopicTitle","placeholder":"category name", "name":"name", "type":"text", "rows":"5"}}) }}
+
+        </div>
+        <div class="form-group w-25 center" >
+            {{ form_widget(f.description, {'attr': {'class': 'form-control', "id":"inputTopicTitle","placeholder":"category description", "name":"name", "type":"text", "rows":"5"}}) }}
+
+        </div>
+
+        <div class="form-group w-25 center">
+        <div class="card">
+                {{ form_widget(f.color) }}
+            </div>
+        </div>
+        {{ form_widget(f.submit, {'attr': {'class': 'btn btn-secondary btn-width-lg', "type":"submit"}}) }}
+
+
+    </div>
+
+        {{ form_rest(f) }}
+        {{ form_end(f) }}
+        <!-- /.box-body -->
+
+    {{ form_start(f2) }}
+
+    {{ form_row(f2._token) }}
+    <div class="form-group w-25 center ">
+        {{ form_widget(f2.name, {'attr': {'class': 'form-control', "id":"inputTopicTitle","placeholder":"trophy name", "name":"name", "type":"text", "rows":"5"}}) }}
+
+    </div>
+    <div class="form-group w-25 center" >
+        {{ form_widget(f2.actionName, {'attr': {'class': 'form-control', "id":"inputTopicTitle","placeholder":"trophy action", "name":"name", "type":"text", "rows":"5"}}) }}
+
+    </div>
+
+    <div class="form-group w-25 center">
+            {{ form_widget(f2.actionCount) }}
+    </div>
+    <div class="form-group w-25 center">
+
+    {{ form_widget(f2.submit, {'attr': {'class': 'btn btn-secondary btn-width-lg', "type":"submit"}}) }}
+
+    </div>
+
+    {{ form_rest(f2) }}
+    {{ form_end(f2) }}
+</div>
+
+    <script src="{{ asset('Front/Index/js/jquery-3.3.1.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/colorpicker/js/jqColorPicker.min.js') }}"></script>
+    <script type="text/javascript">
+        $('.colorpicker').colorPicker();
+    </script>
+{% endblock %}

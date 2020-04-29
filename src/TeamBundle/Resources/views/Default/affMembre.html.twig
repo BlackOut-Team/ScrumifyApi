@@ -1,0 +1,53 @@
+{% extends'baseF.html.twig' %}
+
+
+{% block contents %}
+
+    {% block row %}
+
+        <ul class="nav responsive-tab nav-material nav-material-white" id="v-pills-tab">
+            <li>
+                <a class="nav-link active" id="v-pills-1-tab" data-toggle="pill" href="#v--1">
+                    <i class="icon icon-group"></i>Teams</a>
+            </li>
+        </ul>
+
+    {% endblock %}
+
+
+    {% block items %}
+
+
+
+
+<h6> Utilisateurs de Scrumify</h6>
+        <div class="modal-dialog-centered"  style="width:420%;margin-top: 100px;" >
+
+
+                                    {% for users in users  %}
+                                        <div class="card card-handle" style="width: 200%;margin-right: 50Px;">
+                                         <div class="modal-title">
+                                            <img src="{{ asset('uploads/images/')}}{{ users.image }}" width="200" class="avatar avatar-lg" />
+
+                                            <div class="media-body">
+                                                <h6 class="mb-0 H6-filter-by-text" data-filter-by="text">{{ users.username }}</h6>
+                                                <a href="{{ path('affecterUser',{'team_id':id,'user_id':users.id}) }}">Affecter</a>
+                                            </div>
+                                        </div>
+                                        </div>
+                                        <br>
+                                    {% endfor %}
+                </div>
+
+        <h6> Non Utilisateurs de Scrumify</h6>
+<div class="tab-pane fade show active" id="project-add-details" role="tabpanel">
+{{ form_start(f) }}
+<div class="alert alert-primary" role="alert">
+    {{ form_widget(f.Email ,{'attr': {'class': 'form-control col'}})}}
+    {{ form_widget(f.Envoyer,{'attr': {'class': 'btn btn-primary'}})}}
+
+</div>
+</div>
+    {% endblock %}
+{% endblock %}
+

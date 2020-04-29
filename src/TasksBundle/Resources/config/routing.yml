@@ -1,0 +1,27 @@
+tasks_homepage:
+    path:     /home
+    defaults: { _controller: TasksBundle:Default:home }
+add_tasks:
+    path:     /addTasks
+    defaults: { _controller: TasksBundle:Tasks:addTasks }
+show_tasks:
+    path:     /showTasks/{id}
+    defaults: { _controller: TasksBundle:Tasks:showTasks }
+edit_tasks:
+    path:     /editTasks/{id}
+    defaults: { _controller: TasksBundle:Tasks:edit }
+archiver_tasks:
+    path:     /archiveTasks/{id}
+    defaults: { _controller: TasksBundle:Tasks:archiver }
+statut_task:
+    path:     /statutTask/{id}/{statut}
+    defaults: { _controller: TasksBundle:Tasks:changeStatus }
+desarchiver:
+    path:     /desarchive/{id}
+    defaults: { _controller: TasksBundle:Tasks:desarchiver }
+show_tasks_back:
+    path:   /showBack
+    defaults: { _controller: TasksBundle:Tasks:showTasksB }
+affecterUserTask:
+    path:   /aff/{task_id}/{user_id}
+    defaults: { _controller: TasksBundle:Default:affUserTask }

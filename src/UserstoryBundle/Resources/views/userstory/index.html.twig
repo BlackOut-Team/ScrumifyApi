@@ -1,0 +1,60 @@
+{% extends 'baseF.html.twig' %}
+
+                            {% block contents %}
+                                {% block row %}
+                                    <ul class="nav responsive-tab nav-material nav-material-white" id="v-pills-tab">
+                                        <li>
+                                            <a class="nav-link active" id="v-pills-1-tab" data-toggle="pill" >
+                                                <i class="icon icon-puzzle-piece"></i>Features</a>
+                                        </li>
+                                    </ul>
+
+
+
+
+                                {% endblock %}
+
+     {% block items %}
+         <div>
+             <a href="{{ path('userstory_new', {'id':feature.id} ) }}"><i class="icon-plus " style="-webkit-text-fill-color: #16CABD;font-size: 24px;letter-spacing: 10px;" ></i></a>
+             <a class="btn btn-primary col-lg-8" style="margin-left: 50px" href="{{ path('pdfexport')}}" >export Pdf </a><p></p>
+
+         </div>
+
+
+         <br>
+
+                 {% for userstory in userstories %}
+
+
+
+                                            <div class="card card-block shadow1 d-flex"  style="width:420%;" >
+                                            <div class="p-4">
+                                                <div class="float-left" >
+                                                </div>
+
+                                                <div class="counter-title">
+                                                    <a  href="{{ path('show_tasks' , { 'id': userstory.id } )}}">
+                                                    <h5 data-filter-by="text" class="H5-filter-by-text">  {{ userstory.description }}</h5>
+
+                                                    </a>
+                                                </div>
+                                                <span class="text-small" data-filter-by="text">Priority  {{ userstory.priority }}</span>
+                                                <br>
+                                                <span class="text-small" data-filter-by="text">Story points  {{ userstory.storyPoint  }}</span>
+                                              </div>
+
+                                                <div class="card-footer right-side" style="margin-left: 700Px;background-color: transparent;">
+                                                    <a href=" {{ path('userstory_delete', { 'id': userstory.id }) }}"><i class="icon-archive " style="-webkit-text-fill-color: #16CABD;font-size: 24px;letter-spacing: 10px;" ></i></a>
+                                                    <a href="{{ path('userstory_edit', { 'id': userstory.id }) }}"><i class="icon-edit " style="-webkit-text-fill-color: #16CABD;  font-size: 24px;letter-spacing: 10px;"></i></a>
+                                                </div>
+
+                                            </div>
+
+                     <br>
+
+                 {% endfor %}
+
+
+       {% endblock %}
+{% endblock %}

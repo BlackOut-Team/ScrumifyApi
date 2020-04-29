@@ -1,0 +1,47 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+
+    {% if error %}
+        <div style="-webkit-text-fill-color: darkred">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+
+<p class="loginhere" style="-webkit-text-fill-color: #2c4762;margin-left: 150px;">
+    New to Scrumify?    <a   class="btn btn-success" value="Sign up here"   style="background: linear-gradient(to bottom left , #22c1c3 , #626970  );font-family:'Calibri Light';-webkit-text-fill-color: #FFFFFF; margin-left: 40px;" href="{{ path('fos_user_registration_register') }}">Sign up</a>
+</p>
+
+  <div style="background-color: #FFFFFF;padding: 40Px;alignment: top;">
+    <div class="text-gray">
+        <p class="text-gray" style="font-weight: bold">Sign in </p>
+        <p class="text-gray"> Keep up with your projects </p>
+    </div>
+
+
+      <form  action="{{ path("fos_user_security_check") }}" method="POST" >
+
+    {% if csrf_token %}
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+    {% endif %}
+    <div class="col-lg-12">
+        <div class="form-group has-icon"><i class="icon-user-o" ></i>
+            <input type="text" class="form-control form-control-lg " name="_username" id="name" placeholder="Username" required="required" autocomplete="username" >
+        </div>
+    </div>
+    <div  class="col-lg-12">
+        <div class="form-group has-icon"><i class="icon-key6"></i>
+            <input type="password" class="form-control form-control-lg " placeholder="Password" name="_password" id="password" required="required" autocomplete="current-password" >
+            <span toggle="#password" class="zmdi zmdi-eye field-icon toggle-password"></span>
+        </div>
+    </div>
+      <div class="col-lg-6">
+      <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
+      <label for="remember_me">{{ 'security.login.remember_me'|trans }}</label>
+      </div>
+    <div class="col-lg-12">
+        <input type="submit" class="btn btn-success btn-lg btn-block" value="Sign in" name="_submit" id="submit" style="background-color: #16CABD;">
+    </div>
+</form>
+
+
+</div>
+
+

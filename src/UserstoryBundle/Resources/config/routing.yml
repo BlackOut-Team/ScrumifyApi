@@ -1,0 +1,74 @@
+userstory_homepage:
+    path:     /userstory
+    defaults: { _controller: UserstoryBundle:Default:index }
+userstory_ajoutfeature:
+    path:     /ajoutfeature
+    defaults: { _controller: UserstoryBundle:feature:ajoutfeature }
+feature_new:
+    path:     /new/{id}
+    defaults: { _controller: UserstoryBundle:feature:new }
+userstory_index:
+    path:     /indexuserstory/{id}
+    defaults: { _controller: UserstoryBundle:userstory:index }
+userstory_new:
+    path:     /newuserstory/{id}
+    defaults: { _controller: UserstoryBundle:userstory:addUserStory }
+userstory_show:
+    path:     /showuserstory/{id}
+    defaults: { _controller: UserstoryBundle:userstory:show }
+userstory_delete:
+    path:     /userstoryDelete/{id}
+    defaults: { _controller: UserstoryBundle:userstory:delete }
+feature_index:
+    path:     /indexfeature/{id}
+    defaults: { _controller: UserstoryBundle:feature:showF }
+feature_add:
+    path:     /addfeature/{id}
+    defaults: { _controller: UserstoryBundle:feature:addF }
+feature_show:
+    path:     /showfeature/{id}
+    defaults: { _controller: UserstoryBundle:feature:show }
+feature_edit:
+    path:     /editfeature/{id}
+    defaults: { _controller: UserstoryBundle:feature:edit }
+ajout_comment:
+    path:     /ajout_comment/{id}
+    defaults: { _controller: UserstoryBundle:userstory:ajout_comment }
+userstory_edit:
+    path:     /edituserstory/{id}
+    defaults: { _controller: UserstoryBundle:userstory:edit }
+userstory_back:
+    path:     /userstoryback
+    defaults: { _controller: UserstoryBundle:userstory:Back }
+feature_back:
+    path:     /featureback
+    defaults: { _controller: UserstoryBundle:feature:Back }
+pdfexport:
+    path:     /pdf
+    defaults: { _controller: UserstoryBundle:pdf:index }
+pdf_body:
+    path:     /export
+    defaults: { _controller: UserstoryBundle:pdf:pdfuserstory }
+feature_delete:
+    path:     /featureDelete/{id}
+    defaults: { _controller: UserstoryBundle:feature:delete }
+pdf_bodyF:
+    path:     /exportFeature
+    defaults: { _controller: UserstoryBundle:pdf:pdfFeature }
+pdfexportFeature:
+    path:     /pdfFeature
+    defaults: { _controller: UserstoryBundle:pdf:indexF }
+ajout_commentf:
+    path:     /ajout_comment/{id}
+    defaults: { _controller: UserstoryBundle:feature:ajout_commentf }
+ajax_search:
+    path:     /search
+    defaults: { _controller: UserstoryBundle:feature:search }
+deleted_feature:
+    path:     /deletedf
+    defaults: { _controller: UserstoryBundle:feature:getDeletedfeature }
+
+
+
+
+
