@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use TeamBundle\Entity\team_user;
+use TeamBundle\TeamBundle;
 
 class DefaultController extends Controller
 {
@@ -27,16 +28,17 @@ class DefaultController extends Controller
 
             $em = $this->getDoctrine()->getManager();
              $p->setCreated(new \DateTime('now'));
-             $p->setDuedate(new \DateTime('now'));
 
             $p->setMasterId($this->getUser());
             $p->setEtat(1);
             $p->setName($request->get('name'));
             $p->setDescription($request->get('description'));
-            $p->setDuedate($request->get('duedate'));
-            $p->setTeam($request->get('team_id'));
+            $p->setDuedate(new \DateTime($request->get('duedate')));
+            $team=$em->getRepository(team::class)->find($request->get('team_id'));
+            $p->setTeam($team);
             $em->persist($p);
             $em->flush($p);
+
             $serializer = new Serializer([new ObjectNormalizer()]);
             $formatted = $serializer->normalize($p);
             return new JsonResponse($formatted);
@@ -51,21 +53,24 @@ class DefaultController extends Controller
         $project->setEtat(0);
         $em->persist($project);
         $em->flush();
-        return $this->redirectToRoute('project_homepage');
-
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($project);
+        return new JsonResponse($formatted);
     }
     public function editPAction(Request $request, Projet $project){
-        $editForm=$this->createForm('ScrumBundle\Form\ProjetType',$project);
-        $editForm->handleRequest($request);
+        $em = $this->getDoctrine()->getManager();
 
-        if($editForm->isSubmitted() && $editForm->isValid())
-        {
-            $this->getDoctrine()->getManager()->flush();
-            return $this->redirectToRoute('project_homepage');
-        }
-        return $this->render('@Scrum/Default/editP.html.twig', array(
-            'edit_form' => $editForm->createView()
-        ));
+        $this->getDoctrine()->getManager()->flush();
+            $project->setName($request->get('name'));
+        $project->setDescription($request->get('description'));
+        $project->setDuedate($request->get('duedate'));
+        $team=$em->getRepository(team::class)->find($request->get('team_id'));
+        $project->setTeam($team);
+
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($project);
+        return new JsonResponse($formatted);
+
     }
 
     public function  showPAction(Request $request)
@@ -76,7 +81,7 @@ class DefaultController extends Controller
          $myproject=$this->getDoctrine()->getRepository(Projet::class)->findBy(['etat'=>1]);
 
         $serializer = new Serializer([new ObjectNormalizer()]);
-        $formatted = $serializer->normalize($myproject);
+        $formatted = $serializer->normalize(array($myproject));
         return new JsonResponse($formatted);
 
 
@@ -87,7 +92,9 @@ class DefaultController extends Controller
         $pp->setEtat(1);
         $em->persist($pp);
         $em->flush();
-        return $this->redirectToRoute('showProject');
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($pp);
+        return new JsonResponse($formatted);
 
     }
     function searchPAction(Request $request){
