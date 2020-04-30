@@ -8,6 +8,9 @@ use ActivityBundle\Form\MeetingsType;
 use Doctrine\ORM\EntityRepository;
 use ScrumBundle\Entity\Projet;
 use SprintBundle\Entity\Sprint;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 use TeamBundle\Entity\team;
 use TeamBundle\Entity\team_user;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -90,8 +93,13 @@ class MeetingsController extends Controller
             return $this->redirectToRoute('affichermeeting',['id'=>$id]);
 
         }
-        return $this->render('@Activity/Default/activity.html.twig',
-            array('activities'=>$Activities,'m'=>$meeting, "f"=>$ajouterFrorm->createView(), 'newActivities'=>$NewActivities, 'sprints'=> $sprints, 'id' => $id, 'team' =>$teamMembers));
+
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($Activities);
+        return $this->json($formatted, 200, [], ['groups'=>['public']]);
+
+        //return $this->render('@Activity/Default/activity.html.twig',
+          //  array('activities'=>$Activities,'m'=>$meeting, "f"=>$ajouterFrorm->createView(), 'newActivities'=>$NewActivities, 'sprints'=> $sprints, 'id' => $id, 'team' =>$teamMembers));
     }
 
 
