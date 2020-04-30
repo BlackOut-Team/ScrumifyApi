@@ -5,10 +5,13 @@ namespace TeamBundle\Controller;
 use Doctrine\Common\Collections\ArrayCollection;
 use MainBundle\Entity\User;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Validator\Constraints\Collection;
 use TeamBundle\Entity\team;
 
@@ -53,33 +56,32 @@ class TeamController extends Controller
         );
 
     }
+public function addTAction(Request $request){
+         $p = new team();
 
+        $p->setCreated(new \DateTime('now'));
+        $p->setUpdated(new \DateTime('now'));
+        $p->setInd(0);
+        $p->setEtat(0);
+        $p->setName('name');
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($p);
+
+        $em->flush();
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($p);
+        return new JsonResponse($formatted);
+
+}
     public function affAction(Request $request)
     {
-        $p = new team();
-        $form = $this->createFormBuilder($p)
-            ->add('name', TextType::class, array('attr' => array('class' => 'form-control'), 'label' => "name"))
-            ->add('Ajouter', SubmitType::class, array('attr' => array('class' => 'template-btn',)))
-            ->getForm();
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-
-
-            $p->setCreated(new \DateTime('now'));
-            $p->setUpdated(new \DateTime('now'));
-            $p->setInd(0);
-            $p->setEtat(0);
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($p);
-
-            $em->flush();
-            return $this->redirectToRoute("affiche_team");
-        }
-
 
         $con = $this->getDoctrine()->getRepository('TeamBundle:team')->findAll();
-        return $this->render('@Team/team/index.html.twig', array('con' => $con, "form" => $form->createView()));
+
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($con);
+        return new JsonResponse($formatted);
+
     }
 
     public function affBAction(Request $request)
