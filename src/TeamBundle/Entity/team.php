@@ -187,21 +187,7 @@ class team
         return $this->etat;
     }
 
-    /**
-     * @return int
-     */
-    public function getUser(): int
-    {
-        return $this->user;
-    }
 
-    /**
-     * @param int $user
-     */
-    public function setUser(int $user): void
-    {
-        $this->user = $user;
-    }
 
 
 
