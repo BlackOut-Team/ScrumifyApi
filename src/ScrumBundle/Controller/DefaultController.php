@@ -57,16 +57,18 @@ class DefaultController extends Controller
         $formatted = $serializer->normalize($project);
         return new JsonResponse($formatted);
     }
-    public function editPAction(Request $request, Projet $project){
+    public function editPAction(Request $request,  $id){
+        $project = $this->getDoctrine()->getRepository(Projet::class)->find($id);
+
         $em = $this->getDoctrine()->getManager();
 
         $this->getDoctrine()->getManager()->flush();
-            $project->setName($request->get('name'));
+        $project->setName($request->get('name'));
         $project->setDescription($request->get('description'));
         $project->setDuedate($request->get('duedate'));
         $team=$em->getRepository(team::class)->find($request->get('team_id'));
         $project->setTeam($team);
-
+        $em->flush($project);
         $serializer = new Serializer([new ObjectNormalizer()]);
         $formatted = $serializer->normalize($project);
         return new JsonResponse($formatted);
@@ -113,6 +115,7 @@ class DefaultController extends Controller
 
 
     }
+
     public function chartAction()
     {
         $em= $this->getDoctrine()->getManager();
