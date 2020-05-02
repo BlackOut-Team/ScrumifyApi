@@ -65,7 +65,7 @@ class DefaultController extends Controller
         $this->getDoctrine()->getManager()->flush();
         $project->setName($request->get('name'));
         $project->setDescription($request->get('description'));
-        $project->setDuedate($request->get('duedate'));
+        $project->setDuedate(new \DateTime($request->get('duedate')));
         $team=$em->getRepository(team::class)->find($request->get('team_id'));
         $project->setTeam($team);
         $em->flush($project);
