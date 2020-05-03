@@ -24,24 +24,32 @@ class DefaultController extends Controller
 
 
         $p= new Projet();
+        $duedate= new \DateTime($request->get('duedate'));
+        $now = new \DateTime('now');
 
+        if($duedate > $now) {
 
             $em = $this->getDoctrine()->getManager();
              $p->setCreated(new \DateTime('now'));
-
             $p->setMasterId($this->getUser());
             $p->setEtat(1);
             $p->setName($request->get('name'));
             $p->setDescription($request->get('description'));
-            $p->setDuedate(new \DateTime($request->get('duedate')));
+            $p->setDuedate($duedate);
             $team=$em->getRepository(team::class)->find($request->get('team_id'));
             $p->setTeam($team);
             $em->persist($p);
             $em->flush($p);
+                $serializer = new Serializer([new ObjectNormalizer()]);
+                $formatted = $serializer->normalize($p);
+                return new JsonResponse($formatted);
 
-            $serializer = new Serializer([new ObjectNormalizer()]);
-            $formatted = $serializer->normalize($p);
-            return new JsonResponse($formatted);
+            }
+            else {
+                $serializer = new Serializer([new ObjectNormalizer()]);
+                $formatted = $serializer->normalize('erreur');
+                return new JsonResponse($formatted);
+            }
 
 
 
@@ -59,19 +67,30 @@ class DefaultController extends Controller
     }
     public function editPAction(Request $request,  $id){
         $project = $this->getDoctrine()->getRepository(Projet::class)->find($id);
+        $duedate= new \DateTime($request->get('duedate'));
+        $now = $project->getCreated();
 
-        $em = $this->getDoctrine()->getManager();
+        if($duedate > $now) {
 
-        $this->getDoctrine()->getManager()->flush();
-        $project->setName($request->get('name'));
-        $project->setDescription($request->get('description'));
-        $project->setDuedate(new \DateTime($request->get('duedate')));
-        $team=$em->getRepository(team::class)->find($request->get('team_id'));
-        $project->setTeam($team);
-        $em->flush($project);
-        $serializer = new Serializer([new ObjectNormalizer()]);
-        $formatted = $serializer->normalize($project);
-        return new JsonResponse($formatted);
+            $em = $this->getDoctrine()->getManager();
+
+            $this->getDoctrine()->getManager()->flush();
+            $project->setName($request->get('name'));
+            $project->setDescription($request->get('description'));
+            $project->setDuedate(new \DateTime($request->get('duedate')));
+            $team = $em->getRepository(team::class)->find($request->get('team_id'));
+            $project->setTeam($team);
+            $em->flush($project);
+            $serializer = new Serializer([new ObjectNormalizer()]);
+            $formatted = $serializer->normalize($project);
+            return new JsonResponse($formatted);
+        }
+        else {
+            $serializer = new Serializer([new ObjectNormalizer()]);
+            $formatted = $serializer->normalize('erreur');
+            return new JsonResponse($formatted);
+        }
+
 
     }
 
