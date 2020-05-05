@@ -86,16 +86,16 @@ public function addTAction(Request $request){
         return new JsonResponse($formatted);
     }
 
-    public function eTAction(Request $request, Team $project){
-        $em = $this->getDoctrine()->getManager();
+    public function eTAction(Request $request, Team $team){
+        $em= $this->getDoctrine()->getManager();
 
         $this->getDoctrine()->getManager()->flush();
-        $project->setName($request->get('name'));
-        $project->setUpdated(new \DateTime('now'));
-
+        $team->setName($request->get('name'));
+        $team->setUpdated(new \DateTime('now'));
+$em->flush($team);
 
         $serializer = new Serializer([new ObjectNormalizer()]);
-        $formatted = $serializer->normalize($project);
+        $formatted = $serializer->normalize($team);
         return new JsonResponse($formatted);
 
     }
