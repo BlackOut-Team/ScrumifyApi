@@ -95,7 +95,7 @@ class MeetingsController extends Controller
         }
 
         $serializer = new Serializer([new ObjectNormalizer()]);
-        $formatted = $serializer->normalize($Activities);
+        $formatted = $serializer->normalize($meeting);
         return $this->json($formatted, 200, [], ['groups'=>['public']]);
 
         //return $this->render('@Activity/Default/activity.html.twig',
