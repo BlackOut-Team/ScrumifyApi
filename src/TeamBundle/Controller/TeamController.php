@@ -62,8 +62,8 @@ public function addTAction(Request $request){
         $p->setCreated(new \DateTime('now'));
         $p->setUpdated(new \DateTime('now'));
         $p->setInd(0);
-        $p->setEtat(0);
-        $p->setName('name');
+        $p->setEtat(1);
+        $p->setName($request->get('name'));
         $em = $this->getDoctrine()->getManager();
         $em->persist($p);
 
@@ -73,10 +73,37 @@ public function addTAction(Request $request){
         return new JsonResponse($formatted);
 
 }
+
+    public function aTAction(Request $request, Team $project)
+    {
+
+        $em= $this->getDoctrine()->getManager();
+        $project->setInd(1);
+        $em->persist($project);
+        $em->flush();
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($project);
+        return new JsonResponse($formatted);
+    }
+
+    public function eTAction(Request $request, Team $team){
+        $em= $this->getDoctrine()->getManager();
+
+        $this->getDoctrine()->getManager()->flush();
+        $team->setName($request->get('name'));
+        $team->setUpdated(new \DateTime('now'));
+$em->flush($team);
+
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($team);
+        return new JsonResponse($formatted);
+
+    }
+
     public function affAction(Request $request)
     {
 
-        $con = $this->getDoctrine()->getRepository('TeamBundle:team')->findAll();
+        $con = $this->getDoctrine()->getRepository('TeamBundle:team')->findBy(array('ind' => 0));
 
         $serializer = new Serializer([new ObjectNormalizer()]);
         $formatted = $serializer->normalize($con);
