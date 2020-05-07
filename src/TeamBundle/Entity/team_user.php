@@ -3,12 +3,14 @@
 namespace TeamBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * team_user
  *
  * @ORM\Table(name="team_user")
  * @ORM\Entity(repositoryClass="TeamBundle\Repository\team_userRepository")
+ * @UniqueEntity(fields={"teamId","userId"})
  */
 class team_user
 {
