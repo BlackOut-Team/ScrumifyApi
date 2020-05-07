@@ -92,7 +92,8 @@ public function addTAction(Request $request){
         $this->getDoctrine()->getManager()->flush();
         $project->setName($request->get('name'));
         $project->setUpdated(new \DateTime('now'));
-
+        $em->persist($project);
+        $em->flush();
 
         $serializer = new Serializer([new ObjectNormalizer()]);
         $formatted = $serializer->normalize($project);
