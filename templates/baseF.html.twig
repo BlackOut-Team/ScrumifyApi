@@ -667,17 +667,31 @@
 <script src='{{ asset('fullCalendar/lib/moment.min.js') }}'></script>
 <script src='{{ asset('fullCalendar/lib/jquery-ui.custom.min.js') }}'></script>
 <script src='{{ asset('fullCalendar/lib/fullcalendar.min.js') }}'></script>
-<script>
-    console.log('a');
+<!--<script>
+    /*console.log('a');
     $(document).ready(function() {
-        var calendar = $('#calendar').fullCalendar({
+        var calendar =
+            $(function () {
+            $('#calendar').fullCalendar({
             editable:true,
             header:{
                 left:'prev,next today',
                 center:'title',
                 right:'month,agendaWeek,agendaDay'
             },
-            events : 'load',
+                eventSources: [{
+                    url:
+                    type: 'POST',
+                    data:  {
+                        filters: {
+
+                        }
+                    },
+                    error: function () {
+                        alert('There was an error while fetching FullCalendar!');
+                    }
+                }],
+
             selectable:true,
             selectHelper:true,
             select: function(start, end, allDay)
@@ -754,6 +768,64 @@
                 }
             },
 
+        });
+    });*/-->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="https://momentjs.com/downloads/moment.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.0/fullcalendar.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.0/locale/fr.js"></script>
+<script type="text/javascript">
+    function showSelected(id) {
+
+        var dv = document.getElementById('role'+id);
+        var dv1 = document.getElementById('sub'+id);
+
+        if ((dv.style.display === "none")&&(dv1.style.display === "none")) {
+
+            dv.style.display = "block";
+            dv1.style.display = "block";
+
+        }
+        else {
+            dv.style.display = "none";
+            dv1.style.display = "none";
+
+
+        }
+
+
+    }
+
+    function run(id,i) {
+        document.getElementById('srt'+i).value = document.getElementById(id).value;
+        return document.getElementById(id).value;
+
+    }
+
+</script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#calendar-holder").fullCalendar({
+            eventSources: [
+                {
+                    url: "{{ path('fullcalendar_load_events') }}",
+                    type: "POST",
+                    data: {
+                        filters: {},
+                    },
+                    error: function () {
+                        // alert("There was an error while fetching FullCalendar!");
+                    }
+                }
+            ],
+            header: {
+                center: "title",
+                left: "prev,next today",
+                right: "month,agendaWeek,agendaDay"
+            },
+            lazyFetching: true,
+            locale: "fr",
+            navLinks: true, // can click day/week names to navigate views
         });
     });
 </script>

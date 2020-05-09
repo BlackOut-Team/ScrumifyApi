@@ -19,6 +19,7 @@ use Symfony\Component\BrowserKit\Response;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use TeamBundle\Entity\team_user;
 use function Sodium\add;
 
 
@@ -68,6 +69,15 @@ public function addTAction(Request $request){
         $em->persist($p);
 
         $em->flush();
+
+        $aff = new team_user();
+        $aff->setTeamId($p);
+        $aff->setUserId($this->getUser());
+        $aff->setRole(1);
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($aff);
+        $em->flush();
+
         $serializer = new Serializer([new ObjectNormalizer()]);
         $formatted = $serializer->normalize($p);
         return new JsonResponse($formatted);
@@ -91,14 +101,12 @@ public function addTAction(Request $request){
 
         $this->getDoctrine()->getManager()->flush();
 
-        $project->setName($request->get('name'));
-        $project->setUpdated(new \DateTime('now'));
-        $em->persist($project);
-        $em->flush();
-
         $team->setName($request->get('name'));
         $team->setUpdated(new \DateTime('now'));
-$em->flush($team);
+        $em->persist($team);
+        $em->flush();
+
+
 
 
         $serializer = new Serializer([new ObjectNormalizer()]);
@@ -278,20 +286,29 @@ $em->flush($team);
     public function afficherTAction($id)
     {
         $members=null;
+
         $t = $this->getDoctrine()->getRepository('TeamBundle:team')->find($id);
         $con3 = $this->getDoctrine()->getRepository('TeamBundle:team_user')->findBy(array('teamId' => $id));
-        if($con3 != null) {
-            foreach ($con3 as $c) {
-                $v = $c->getUserId();
-                $members = $this->getU($v);
-            }
-            return $this->render('@Team/team/afficheTeam.html.twig', array('id' => $id, 'team' => $t->getName(), 'users' => $members));
+        $qb = $this->getDoctrine()->getRepository(User::class)->createQueryBuilder('c');
+        $qb->select('c')
 
+            ->join('TeamBundle:team_user','t','WITH','t.userId = c.id')
+            ->where('t.teamId = :team ')
+            ->setParameter('team',$id);
+
+
+
+
+        $members= $qb->getQuery()->execute();
+        if($con3 != null) {
+            return $this->render('@Team/team/afficheTeam.html.twig', array('id' => $id, 'team' => $t->getName(), 'users' => $members));
         }
         else {
             return $this->render('@Team/team/teamvide.html.twig', array('id' => $id,  'users' => $members));
 
         }
+
+
 
 
     }
