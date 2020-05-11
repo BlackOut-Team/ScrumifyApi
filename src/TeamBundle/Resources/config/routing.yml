@@ -4,19 +4,10 @@ team_homepage:
 
 ajout_team:
     path:     /ajtteam
-    defaults: { _controller: TeamBundle:Team:AddT }
-
-arch_team1:
-    path:     /atm/{id}
-    defaults: { _controller: TeamBundle:Team:aT }
-
-e_team1:
-    path:     /etm/{id}
-    defaults: { _controller: TeamBundle:Team:eT }
-
+    defaults: { _controller: TeamBundle:Team:AddP }
 
 affiche_team:
-    path:     /teams
+    path:     /affteam
     defaults: { _controller: TeamBundle:Team:aff }
 affiche_members:
     path:     /teammembers/{id}

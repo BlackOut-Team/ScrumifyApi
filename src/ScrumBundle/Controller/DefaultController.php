@@ -7,11 +7,15 @@ use CMEN\GoogleChartsBundle\GoogleCharts\Charts\PieChart;
 use Proxies\__CG__\TeamBundle\Entity\team;
 use ScrumBundle\Entity\Projet;
 use SprintBundle\Entity\Sprint;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use TeamBundle\Entity\team_user;
@@ -192,6 +196,10 @@ class DefaultController extends Controller
 
         ));
     }
+
+
+
+
 
 
 
