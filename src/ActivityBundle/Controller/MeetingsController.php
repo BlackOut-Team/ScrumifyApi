@@ -93,10 +93,10 @@ class MeetingsController extends Controller
             return $this->redirectToRoute('affichermeeting',['id'=>$id]);
 
         }
-
         $serializer = new Serializer([new ObjectNormalizer()]);
-        $formatted = $serializer->normalize($meeting);
-        return $this->json($formatted, 200, [], ['groups'=>['public']]);
+        $formatted = $serializer->normalize(array($meeting));
+        return new JsonResponse($formatted);
+
 
         //return $this->render('@Activity/Default/activity.html.twig',
           //  array('activities'=>$Activities,'m'=>$meeting, "f"=>$ajouterFrorm->createView(), 'newActivities'=>$NewActivities, 'sprints'=> $sprints, 'id' => $id, 'team' =>$teamMembers));
