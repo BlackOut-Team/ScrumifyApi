@@ -4,6 +4,9 @@ evenement:
 
 
 
+main:
+    resource: "@MainBundle/Resources/config/routing.yml"
+    prefix:   /connect
 my_app_mail:
     resource: "@MyAppMailBundle/Resources/config/routing.yml"
 
@@ -24,9 +27,6 @@ Userstory:
 team:
     resource: "@TeamBundle/Resources/config/routing.yml"
 
-main:
-    resource: "@MainBundle/Resources/config/routing.yml"
-    prefix:   /
 
 messaging:
     resource: "@MessagingBundle/Resources/config/routing.yml"

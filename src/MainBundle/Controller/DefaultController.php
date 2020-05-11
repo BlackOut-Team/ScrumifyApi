@@ -13,25 +13,30 @@ use Symfony\Component\Serializer\Serializer;
 class DefaultController extends Controller
 {
 
-    public function indexAction(Request $request){
+    public function indexAction
+        (Request $request){
 
-        $username = $request->query->get('username');
+            $username = $request->query->get('username');
 
-        $password = $request->query->get('password');
+            $password = $request->query->get('password');
 
 
-        $user_manager = $this->get('fos_user.user_manager');
-        $factory = $this->get('security.encoder_factory');
+            $serializer = new Serializer([new ObjectNormalizer()]);
+            $user_manager = $this->get('fos_user.user_manager');
+            $factory = $this->get('security.encoder_factory');
 
-        $user = $user_manager->findUserByUsername($username);
+            $user = $user_manager->findUserByUsername($username);
+            if($user){
+                $encoder = $factory->getEncoder($user);
 
-        $encoder = $factory->getEncoder($user);
+                $bool = ($encoder->isPasswordValid($user->getPassword(),$password,$user->getSalt())) ? "true" : "false";
 
-        $bool = ($encoder->isPasswordValid($user->getPassword(),$password,$user->getSalt())) ? "true" : "false";
-
-        $serializer = new Serializer([new ObjectNormalizer()]);
-        $formatted = $serializer->normalize(array($bool));
-        return new JsonResponse($formatted);
+                if($encoder->isPasswordValid($user->getPassword(),$password,$user->getSalt())) {$formatted = $serializer->normalize(array($user));}
+                else $formatted = $serializer->normalize(array("false"));
+            }
+            else
+                $formatted = $serializer->normalize(array("false"));
+            return new JsonResponse($formatted);
     }
     public function indexbackAction()
     {
