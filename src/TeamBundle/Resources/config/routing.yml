@@ -9,6 +9,19 @@ ajout_team:
 affiche_team:
     path:     /affteam
     defaults: { _controller: TeamBundle:Team:aff }
+
+api_add:
+    path:     /ajm
+    defaults: { _controller: TeamBundle:Team:addT }
+
+api_edit:
+    path:     /etm/{id}
+    defaults: { _controller: TeamBundle:Team:eT }
+
+api_archiver:
+    path:     /atm/{id}
+    defaults: { _controller: TeamBundle:Team:aT }
+
 affiche_members:
     path:     /teammembers/{id}
     defaults: { _controller: TeamBundle:Team:afficherT }

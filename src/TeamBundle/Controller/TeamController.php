@@ -68,7 +68,6 @@ public function addTAction(Request $request,$user){
         $p->setName($request->get('name'));
         $em = $this->getDoctrine()->getManager();
         $em->persist($p);
-
         $em->flush();
 
         $aff = new team_user();
