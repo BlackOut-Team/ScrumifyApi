@@ -57,13 +57,12 @@ class TeamController extends Controller
         );
 
     }
-public function addTAction(Request $request,$user){
+public function addTAction(Request $request){
          $p = new team();
 
         $p->setCreated(new \DateTime('now'));
         $p->setUpdated(new \DateTime('now'));
         $p->setInd(0);
-        $p->setUserId($user);
         $p->setEtat(1);
         $p->setName($request->get('name'));
         $em = $this->getDoctrine()->getManager();
