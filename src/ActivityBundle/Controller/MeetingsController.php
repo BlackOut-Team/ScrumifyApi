@@ -103,7 +103,35 @@ class MeetingsController extends Controller
     }
 
 
+    function ajouterMeetingAction(Request $request)
+    {
 
+
+        $m = new Meetings();
+        $date = new \DateTime($request->get('date'));
+        $now = new \DateTime('now');
+
+        if ($date > $now) {
+
+            $em = $this->getDoctrine()->getManager();
+            $m->setName($request->get('name'));
+            $m->setPlace($request->get('place'));
+            $m->setType($request->get('type'));
+            $m->setMeetingDate($date);
+            $sprint = $em->getRepository(Sprint::class)->find($request->get('sprint_id'));
+            $m->setSprint($sprint);
+            $em->persist($m);
+            $em->flush($m);
+            $serializer = new Serializer([new ObjectNormalizer()]);
+            $formatted = $serializer->normalize($m);
+            return new JsonResponse($formatted);
+
+        } else {
+            $serializer = new Serializer([new ObjectNormalizer()]);
+            $formatted = $serializer->normalize('erreur');
+            return new JsonResponse($formatted);
+        }
+    }
 
     function SupprimerAction(Request $request, $id){
 

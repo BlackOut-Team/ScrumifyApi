@@ -38,4 +38,3 @@ fullcalendar_load_events:
     path:     /fc-load-events
     defaults: { _controller: ScrumBundle:Calendar:load}
 
-

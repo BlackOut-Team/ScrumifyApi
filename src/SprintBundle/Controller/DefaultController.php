@@ -5,7 +5,10 @@ namespace SprintBundle\Controller;
 use ScrumBundle\Entity\Projet;
 use SprintBundle\Entity\Sprint;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 use TeamBundle\Entity\team_user;
 
 class DefaultController extends Controller
@@ -69,18 +72,15 @@ class DefaultController extends Controller
         ));
     }
 
-    public function  showSprintsAction(Projet $projet){
+    public function  showSprintsAction($id){
 
-        $sprint=$this->getDoctrine()->getRepository(Sprint::class)->findBy(array('project'=>$projet->getId()));
-
-
-        return $this->render('@Sprint/Default/index.html.twig',array(
-            'sprint'=>$sprint ,
-            'project'=>$projet,
+        $sprint=$this->getDoctrine()->getRepository(Sprint::class)->findBy(  ['project'=>$id]);
 
 
-        ));
 
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize(array($sprint));
+        return new JsonResponse($formatted);
     }
 
 }
