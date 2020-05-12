@@ -8,6 +8,9 @@ use ActivityBundle\Form\MeetingsType;
 use Doctrine\ORM\EntityRepository;
 use ScrumBundle\Entity\Projet;
 use SprintBundle\Entity\Sprint;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 use TeamBundle\Entity\team;
 use TeamBundle\Entity\team_user;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -90,20 +93,29 @@ class MeetingsController extends Controller
             return $this->redirectToRoute('affichermeeting',['id'=>$id]);
 
         }
-        return $this->render('@Activity/Default/activity.html.twig',
-            array('activities'=>$Activities,'m'=>$meeting, "f"=>$ajouterFrorm->createView(), 'newActivities'=>$NewActivities, 'sprints'=> $sprints, 'id' => $id, 'team' =>$teamMembers));
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize(array($meeting));
+        return new JsonResponse($formatted);
+
+
+        //return $this->render('@Activity/Default/activity.html.twig',
+          //  array('activities'=>$Activities,'m'=>$meeting, "f"=>$ajouterFrorm->createView(), 'newActivities'=>$NewActivities, 'sprints'=> $sprints, 'id' => $id, 'team' =>$teamMembers));
     }
 
 
 
 
-    function SupprimerAction($id,$project_id){
-        $em=$this->getDoctrine()->getManager();
-        $meeting=$em->getRepository(Meetings::class)
-            ->find($id);
-        $em->remove($meeting);
-        $em->flush();
-        return $this->redirectToRoute('affichermeeting',['id' =>$project_id ]);
+    function SupprimerAction(Request $request, $id){
+
+
+            $em=$this->getDoctrine()->getManager();
+            $meeting=$em->getRepository(Meetings::class)
+                ->find($id);
+            $em->remove($meeting);
+            $em->flush();
+            $serializer = new Serializer([new ObjectNormalizer()]);
+            $formatted = $serializer->normalize($meeting);
+            return new JsonResponse($formatted);
 
     }
     function modifierAction($id,$project_id , Request $request)

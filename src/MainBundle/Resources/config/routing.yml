@@ -4,3 +4,6 @@ homepage:
 homepageback:
   path:     /dashboard
   defaults: { _controller: MainBundle:Default:dashboard }
+login:
+  path:     /account/login
+  defaults: { _controller: MainBundle:Default:login }

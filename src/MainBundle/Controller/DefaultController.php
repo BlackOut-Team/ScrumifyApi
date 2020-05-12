@@ -4,15 +4,39 @@ namespace MainBundle\Controller;
 
 use CMEN\GoogleChartsBundle\GoogleCharts\Charts\PieChart;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 class DefaultController extends Controller
 {
 
-    public function indexAction()
-    {
-        return $this->render('@Main/Default/index.html.twig');
+    public function indexAction
+        (Request $request){
+
+            $username = $request->query->get('username');
+
+            $password = $request->query->get('password');
+
+
+            $serializer = new Serializer([new ObjectNormalizer()]);
+            $user_manager = $this->get('fos_user.user_manager');
+            $factory = $this->get('security.encoder_factory');
+
+            $user = $user_manager->findUserByUsername($username);
+            if($user){
+                $encoder = $factory->getEncoder($user);
+
+                $bool = ($encoder->isPasswordValid($user->getPassword(),$password,$user->getSalt())) ? "true" : "false";
+
+                if($encoder->isPasswordValid($user->getPassword(),$password,$user->getSalt())) {$formatted = $serializer->normalize(array($user));}
+                else $formatted = $serializer->normalize(array("false"));
+            }
+            else
+                $formatted = $serializer->normalize(array("false"));
+            return new JsonResponse($formatted);
     }
     public function indexbackAction()
     {
@@ -21,7 +45,9 @@ class DefaultController extends Controller
 
     public function loginAction()
     {
-        return $this->render('@Main/Security/login.html.twig');
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize(array(true));
+        return new JsonResponse($formatted);
     }
     public function registerAction()
     {
@@ -59,6 +85,14 @@ class DefaultController extends Controller
         $pieChart->getOptions()->getTitleTextStyle()->setFontSize(20);
 
         return $this->render('@Main/Default/indexBack.html.twig', array('piechart' => $pieChart, 'sizeP'=>$sizeP , 'sizeU'=>$sizeU, 'sizeT'=>$sizeT));
+    }
+
+    public function connectAction(){
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize(array(true));
+        return new JsonResponse($formatted);
+
+
     }
 
 

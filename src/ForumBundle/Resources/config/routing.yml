@@ -1,5 +1,5 @@
-forum_homepage:
-    path:     /forum
+connect:
+    path:     /connect
     defaults: { _controller: ForumBundle:Default:index }
 
 _display_questions:
@@ -27,6 +27,7 @@ _display_back_answer:
 _edit_question:
     path:     /edit_question/{id}
     defaults: { _controller: ForumBundle:Question:EditQuestion }
+
 tag:
     resource: "@ForumBundle/Controller/"
     type:      annotation
