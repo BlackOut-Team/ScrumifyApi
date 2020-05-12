@@ -2,7 +2,7 @@ addProject:
     path:   /Add
     defaults: { _controller: ScrumBundle:Default:AddP }
 project_homepage:
-    path:   /showP
+    path:   /showP/{user_id}
     defaults: { _controller: ScrumBundle:Default:showP }
 editProject:
     path:   /EditP/{id}

@@ -2,11 +2,15 @@
 
 namespace SprintBundle\Controller;
 
+use DateTime;
 use ScrumBundle\Entity\Projet;
 use SprintBundle\Entity\Sprint;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use TeamBundle\Entity\team_user;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 class DefaultController extends Controller
 {
@@ -16,70 +20,85 @@ class DefaultController extends Controller
     }
     public function  AddSAction(Request $request, Projet $projet)
     {
-       // $team=$this->getDoctrine()->getRepository(Projet::class)->findBy(['etat'=>1,'id'=>$projet->getTeam()]);
-      //  $members=$this->getDoctrine()->getRepository(team_user::class)->find($team);
+
+
+
         $s= new Sprint();
-        $f=$this->createForm('SprintBundle\Form\SprintType',$s);
-        $f->handleRequest($request);
-        if ($f->isSubmitted() && $f->isValid()) {
+        try {
+            $duedate = new DateTime($request->get('duedate'));
+        } catch (\Exception $e) {
+        }
+        $now = new DateTime('now');
+
+        if($duedate > $now) {
 
             $em = $this->getDoctrine()->getManager();
             $s->setProject($projet);
             $s->setEtat(1);
-            $s->setCreated(new \DateTime('now'));
+            $s->setCreated(new DateTime('now'));
             $em->persist($s);
-
+            $s->setName($request->get('name'));
+            $s->setDescription($request->get('description'));
+            $s->setDuedate($duedate);
             $em->flush($s);
 
-            return $this->redirectToRoute('Sprint_homepage',array('id' => $projet->getId()));
+            $serializer = new Serializer([new ObjectNormalizer()]);
+            $formatted = $serializer->normalize($s);
+            return new JsonResponse($formatted);
         }
-        return $this->render('@Sprint/Default/addS.html.twig',array(
-            'f'=>$f->createView(),
-            'project'=>$projet,
-          //  'members'=> $members ,
+        else {
+            $serializer = new Serializer([new ObjectNormalizer()]);
+            $formatted = $serializer->normalize('erreur');
+            return new JsonResponse($formatted);
+        }
 
 
-        ));
 
     }
 
-    public function archiverSAction(Request $request, Projet $projet,Sprint $sprint){
+    public function archiverSAction(Request $request,Sprint $sprint){
 
         $em= $this->getDoctrine()->getManager();
+        $sprint->setProject($sprint->getProject());
         $sprint->setEtat(0);
         $em->persist($sprint);
         $em->flush();
-        return $this->redirectToRoute('Sprint_homepage',array('id' => $projet->getId()));
-
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($sprint);
+        return new JsonResponse($formatted);
     }
-    public function editSAction(Request $request, Projet $projet  , Sprint $sprint){
+    public function editSAction(Request $request, $id){
+        $sprint = $this->getDoctrine()->getRepository(Sprint::class)->find($id);
+        $duedate= new \DateTime($request->get('duedate'));
+        $now = $sprint->getCreated();
 
-        $editForm=$this->createForm('SprintBundle\Form\SprintType',$sprint);
-        $editForm->handleRequest($request);
+        if($duedate > $now) {
+            $em = $this->getDoctrine()->getManager();
 
-        if($editForm->isSubmitted() && $editForm->isValid())
-        {
-            $sprint->setProject($projet);
             $this->getDoctrine()->getManager()->flush();
-            return $this->redirectToRoute('Sprint_homepage',array('id' => $projet->getId()));
+            $sprint->setName($request->get('name'));
+            $sprint->setDescription($request->get('description'));
+            $sprint->setDuedate(new \DateTime($request->get('duedate')));
+            $em->flush($sprint);
+            $serializer = new Serializer([new ObjectNormalizer()]);
+            $formatted = $serializer->normalize($sprint);
+            return new JsonResponse($formatted);
         }
-        return $this->render('@Sprint/Default/editS.html.twig', array(
-            'edit_form' => $editForm->createView(),
-            'project' => $projet,
-        ));
+        else {
+            $serializer = new Serializer([new ObjectNormalizer()]);
+            $formatted = $serializer->normalize('erreur');
+            return new JsonResponse($formatted);
+        }
+
     }
 
     public function  showSprintsAction(Projet $projet){
 
-        $sprint=$this->getDoctrine()->getRepository(Sprint::class)->findBy(array('project'=>$projet->getId()));
+        $sprint=$this->getDoctrine()->getRepository(Sprint::class)->findBy(array('project'=>$projet->getId(),'etat'=>1));
 
-
-        return $this->render('@Sprint/Default/index.html.twig',array(
-            'sprint'=>$sprint ,
-            'project'=>$projet,
-
-
-        ));
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize(array($sprint));
+        return new JsonResponse($formatted);
 
     }
 

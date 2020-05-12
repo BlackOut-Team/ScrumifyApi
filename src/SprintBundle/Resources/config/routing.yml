@@ -2,7 +2,7 @@ Sprint_homepage:
     path:     /sprint/{id}
     defaults: { _controller: SprintBundle:Default:showSprints }
 archiverSprint:
-    path:     /archiver/{projet}/{sprint}
+    path:     /archiver/{sprint}
     defaults: { _controller: SprintBundle:Default:archiverS }
     requirements:
         page: '\d+'
@@ -10,6 +10,6 @@ addSprint:
     path:   /AddSprint/{id}
     defaults: { _controller: SprintBundle:Default:AddS }
 editSprint:
-    path:   /editSprint/{projet}/{sprint}
+    path:   /editSprint/{sprint}
     defaults: { _controller: SprintBundle:Default:editS }
 

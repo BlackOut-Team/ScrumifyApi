@@ -10,4 +10,18 @@ namespace ScrumBundle\Repository;
  */
 class ProjetRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getAllP($user)
+    {
+
+
+        $qb = $this->createQueryBuilder("e");
+        $qb ->join('TeamBundle:team_user','t' )
+            ->andWhere('t.userId = :user' )
+            ->andWhere('e.team = t.teamId')
+            ->andWhere('e.etat = 1')
+            ->setParameter('user',$user );
+        return $result = $qb->getQuery()->getResult();
+
+
+    }
 }
