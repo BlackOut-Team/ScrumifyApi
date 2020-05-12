@@ -105,13 +105,17 @@ class MeetingsController extends Controller
 
 
 
-    function SupprimerAction($id,$project_id){
-        $em=$this->getDoctrine()->getManager();
-        $meeting=$em->getRepository(Meetings::class)
-            ->find($id);
-        $em->remove($meeting);
-        $em->flush();
-        return $this->redirectToRoute('affichermeeting',['id' =>$project_id ]);
+    function SupprimerAction(Request $request, $id){
+
+
+            $em=$this->getDoctrine()->getManager();
+            $meeting=$em->getRepository(Meetings::class)
+                ->find($id);
+            $em->remove($meeting);
+            $em->flush();
+            $serializer = new Serializer([new ObjectNormalizer()]);
+            $formatted = $serializer->normalize($meeting);
+            return new JsonResponse($formatted);
 
     }
     function modifierAction($id,$project_id , Request $request)
