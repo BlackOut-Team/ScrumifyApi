@@ -25,3 +25,9 @@ show_tasks_back:
 affecterUserTask:
     path:   /aff/{task_id}/{user_id}
     defaults: { _controller: TasksBundle:Default:affUserTask }
+Taskaffmobile:
+    path:   /show
+    defaults: { _controller: TasksBundle:Service:show }
+addTaskmobile:
+    path:   /new
+    defaults: { _controller: TasksBundle:Service:new }

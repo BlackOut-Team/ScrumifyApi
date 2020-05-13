@@ -146,23 +146,33 @@ class MeetingsController extends Controller
             return new JsonResponse($formatted);
 
     }
-    function modifierAction($id,$project_id , Request $request)
+    function modifierAction($id, Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-        $meeting = $em->getRepository(Meetings::class)
-            ->find($id);
-        $Form = $this->createForm(MeetingsType::class, $meeting);
-        $Form->handleRequest($request);
+        $date = new \DateTime($request->get('date'));
+        $now = new \DateTime('now');
 
-
-        if ($Form->isSubmitted()) {
+        if ($date > $now) {
             $em = $this->getDoctrine()->getManager();
-            $em->flush();
-            return $this->redirectToRoute('affichermeeting',['id' =>$project_id ]);
+            $m = $em->getRepository(Meetings::class)
+                ->find($id);
+            $m->setName($request->get('name'));
+            $m->setPlace($request->get('place'));
+            $m->setType($request->get('type'));
+            $m->setMeetingDate($date);
+            $sprint = $em->getRepository(Sprint::class)->find($request->get('sprint_id'));
+            $m->setSprint($sprint);
+            $em->flush($m);
+            $serializer = new Serializer([new ObjectNormalizer()]);
+            $formatted = $serializer->normalize($m);
+            return new JsonResponse($formatted);
 
+        } else {
+            $serializer = new Serializer([new ObjectNormalizer()]);
+            $formatted = $serializer->normalize('erreur');
+            return new JsonResponse($formatted);
         }
-        return $this->render('@Activity/Default/modifierMeeting.html.twig',
-            array('f' => $Form->createView()));
+
+
 
     }
 

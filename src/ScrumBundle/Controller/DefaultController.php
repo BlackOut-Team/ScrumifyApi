@@ -4,6 +4,7 @@ namespace ScrumBundle\Controller;
 
 use CMEN\GoogleChartsBundle\GoogleCharts\Charts\ColumnChart;
 use CMEN\GoogleChartsBundle\GoogleCharts\Charts\PieChart;
+use Github\Api\User;
 use Proxies\__CG__\TeamBundle\Entity\team;
 use ScrumBundle\Entity\Projet;
 use SprintBundle\Entity\Sprint;
@@ -98,12 +99,12 @@ class DefaultController extends Controller
 
     }
 
-    public function  showPAction(Request $request)
+    public function  showPAction($user_id)
     {
 
        // $myproject=$this->getDoctrine()->getRepository(Projet::class)->findBy(['etat'=>1,'master_id'=>$this->getUser()]);
-        $ownerproject=$this->getDoctrine()->getRepository(Projet::class)->findBy(['etat'=>1,'owner_id'=>$this->getUser()]);
-         $myproject=$this->getDoctrine()->getRepository(Projet::class)->findBy(['etat'=>1]);
+        $ownerproject=$this->getDoctrine()->getRepository(Projet::class)->findBy(['etat'=>1]);
+         $myproject=$this->getDoctrine()->getRepository(Projet::class)->getAllP($user_id);
 
         $serializer = new Serializer([new ObjectNormalizer()]);
         $formatted = $serializer->normalize(array($myproject));
