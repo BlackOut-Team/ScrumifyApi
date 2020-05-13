@@ -103,11 +103,12 @@ class DefaultController extends Controller
     {
 
        // $myproject=$this->getDoctrine()->getRepository(Projet::class)->findBy(['etat'=>1,'master_id'=>$this->getUser()]);
-        $ownerproject=$this->getDoctrine()->getRepository(Projet::class)->findBy(['etat'=>1]);
-         $myproject=$this->getDoctrine()->getRepository(Projet::class)->getAllP($user_id);
+        $ownerproject=$this->getDoctrine()->getRepository(Projet::class)->findBy(['etat'=>1,'owner_id'=>$this->getUser()]);
+         //$myproject=$this->getDoctrine()->getRepository(Projet::class)->getAllP($user_id);
+        $all = $this->getDoctrine()->getRepository(Projet::class)->getAllP($user_id);
 
         $serializer = new Serializer([new ObjectNormalizer()]);
-        $formatted = $serializer->normalize(array($myproject));
+        $formatted = $serializer->normalize(array($all));
         return new JsonResponse($formatted);
 
 

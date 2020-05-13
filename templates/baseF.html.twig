@@ -145,9 +145,9 @@
 
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="{{path('project_homepage')}}"><i class="icon icon-circle-o"></i>Active Projects</a>
+                        <li><a href="{{path('project_homepage', {'user_id': app.user})}}"><i class="icon icon-circle-o"></i>Active Projects</a>
                         </li>
-                        <li><a href="{{path('project_homepage')}}"><i class="icon icon-circle-o"></i>Archived  Projects</a>
+                        <li><a href="{{path('project_homepage', {'user_id': app.user})}}"><i class="icon icon-circle-o"></i>Archived  Projects</a>
                         </li>
                     </ul>
                 </li>
