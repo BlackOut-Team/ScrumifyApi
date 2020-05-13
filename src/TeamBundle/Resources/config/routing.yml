@@ -17,11 +17,15 @@ api_add:
 api_edit:
     path:     /etm/{id}
     defaults: { _controller: TeamBundle:Team:eT }
-
 api_archiver:
     path:     /atm/{id}
     defaults: { _controller: TeamBundle:Team:aT }
-
+api_allusers:
+    path:     /allusers
+    defaults: { _controller: TeamBundle:Default:displayUsers }
+api_affecter:
+    path:     /affecterT
+    defaults: { _controller: TeamBundle:Default:affecterUserT }
 affiche_members:
     path:     /teammembers/{id}
     defaults: { _controller: TeamBundle:Team:afficherT }

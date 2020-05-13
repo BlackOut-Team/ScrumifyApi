@@ -44,6 +44,11 @@ class ServiceController extends Controller
         $userstory= $this->getDoctrine()->getManager()->getRepository('UserstoryBundle:userstory')->find(1);
         $tasks->setUserstory($userstory);
 
+        $a = $em->getRepository('MainBundle:User')->find($request->get('user'));
+        $user= $this->getDoctrine()->getManager()->getRepository('MainBundle:User')->findOneBy(['username'=>$a->getUsername()]);
+        $usersToAffect =$em->getRepository('MainBundle:User')->findBy(['username'=>'']);
+        array_push($usersToAffect,$user);
+        $tasks->setUser($usersToAffect);
 
         $em->persist($tasks);
         $em->flush();

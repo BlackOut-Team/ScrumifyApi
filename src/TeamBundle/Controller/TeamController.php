@@ -57,13 +57,13 @@ class TeamController extends Controller
         );
 
     }
-public function addTAction(Request $request,$user){
+   public function addTAction(Request $request){
          $p = new team();
 
         $p->setCreated(new \DateTime('now'));
         $p->setUpdated(new \DateTime('now'));
         $p->setInd(0);
-        $p->setUserId($user);
+      //  $p->setUserId($user);
         $p->setEtat(1);
         $p->setName($request->get('name'));
         $em = $this->getDoctrine()->getManager();
@@ -72,7 +72,8 @@ public function addTAction(Request $request,$user){
 
         $aff = new team_user();
         $aff->setTeamId($p);
-        $aff->setUserId($this->getUser());
+        $user =$em->getRepository(User::class)->find($request->get('user'));
+        $aff->setUserId($user);
         $aff->setRole(1);
         $em = $this->getDoctrine()->getManager();
         $em->persist($aff);
@@ -289,27 +290,22 @@ public function addTAction(Request $request,$user){
 
         $t = $this->getDoctrine()->getRepository('TeamBundle:team')->find($id);
         $con3 = $this->getDoctrine()->getRepository('TeamBundle:team_user')->findBy(array('teamId' => $id));
-        $qb = $this->getDoctrine()->getRepository(User::class)->createQueryBuilder('c');
-        $qb->select('c')
 
-            ->join('TeamBundle:team_user','t','WITH','t.userId = c.id')
-            ->where('t.teamId = :team ')
-            ->setParameter('team',$id);
+        $members = $this->getDoctrine()->getRepository('MainBundle:User')->getTeam($id);
 
-
-
-
-        $members= $qb->getQuery()->execute();
         if($con3 != null) {
-            return $this->render('@Team/team/afficheTeam.html.twig', array('id' => $id, 'team' => $t->getName(), 'users' => $members));
+          //  return $this->render('@Team/team/afficheTeam.html.twig', array('id' => $id, 'team' => $t->getName(), 'users' => $members));
+            $serializer = new Serializer([new ObjectNormalizer()]);
+            $formatted = $serializer->normalize($members);
+            return new JsonResponse($formatted);
         }
         else {
-            return $this->render('@Team/team/teamvide.html.twig', array('id' => $id,  'users' => $members));
+          //  return $this->render('@Team/team/teamvide.html.twig', array('id' => $id,  'users' => $members));
+            $serializer = new Serializer([new ObjectNormalizer()]);
+            $formatted = $serializer->normalize(null);
+            return new JsonResponse($formatted);
 
         }
-
-
-
 
     }
 }
