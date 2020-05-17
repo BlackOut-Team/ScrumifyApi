@@ -50,4 +50,3 @@ cal_deadliness:
     path:     /showDeadliness/{user_id}
     defaults: { _controller: ScrumBundle:Calendar:showDs }
 
-

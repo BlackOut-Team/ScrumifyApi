@@ -4,6 +4,7 @@ namespace ScrumBundle\Controller;
 
 use CMEN\GoogleChartsBundle\GoogleCharts\Charts\ColumnChart;
 use CMEN\GoogleChartsBundle\GoogleCharts\Charts\PieChart;
+use Github\Api\User;
 use Proxies\__CG__\TeamBundle\Entity\team;
 use ScrumBundle\Entity\Projet;
 use SprintBundle\Entity\Sprint;

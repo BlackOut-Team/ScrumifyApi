@@ -15,7 +15,7 @@ delete_meeting:
     path:      /Meeting/delete/{id}
     defaults: { _controller: ActivityBundle:Meetings:Supprimer}
 update_meeting:
-    path:     /update_meeting/{id}{project_id}
+    path:     /update_meeting/{id}
     defaults: { _controller: ActivityBundle:Meetings:modifier}
 ChangeActivityState:
     path:   /change_activity/{id}{project_id}
@@ -24,3 +24,7 @@ getNotif:
     path:   /getNotif
     defaults: { _controller: ActivityBundle:Activity:getNotif}
     methods: [post]
+
+ajouterMeeting:
+    path:   /Meeting/Add
+    defaults: { _controller: ActivityBundle:Meetings:ajouterMeeting}
