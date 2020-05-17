@@ -24,4 +24,55 @@ class ProjetRepository extends \Doctrine\ORM\EntityRepository
 
 
     }
+    public function getCurrent($user)
+    {
+        $now =new \DateTime('now');
+
+
+        $qb = $this->createQueryBuilder("e");
+        $qb ->join('TeamBundle:team_user','t' )
+            ->andWhere('t.userId = :user' )
+            ->andWhere('e.team = t.teamId')
+            ->andWhere('e.duedate > :now ')
+            ->andWhere('e.etat = 1')
+            ->setParameters(array('now'=>$now , 'user'=>$user) );
+
+        return $result = $qb->getQuery()->getResult();
+
+
+    }
+    public function getCompleted($user)
+    {
+        $now =new \DateTime('now');
+
+
+        $qb = $this->createQueryBuilder("e");
+        $qb ->join('TeamBundle:team_user','t' )
+            ->andWhere('t.userId = :user' )
+            ->andWhere('e.team = t.teamId')
+            ->andWhere('e.duedate < :now ')
+            ->andWhere('e.etat = 1')
+            ->setParameters(array('now'=>$now , 'user'=>$user) );
+
+        return $result = $qb->getQuery()->getResult();
+
+
+    }
+
+    public function getD($user,$date)
+    {
+
+
+        $qb = $this->createQueryBuilder("e");
+        $qb ->join('TeamBundle:team_user','t' )
+            ->andWhere('t.userId = :user' )
+            ->andWhere('e.team = t.teamId')
+            ->andWhere('e.duedate = :date ')
+            ->andWhere('e.etat = 1')
+            ->setParameters(array('date'=>$date , 'user'=>$user) );
+
+        return $result = $qb->getQuery()->getResult();
+
+
+    }
 }

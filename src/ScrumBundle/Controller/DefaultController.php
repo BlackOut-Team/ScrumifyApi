@@ -101,10 +101,31 @@ class DefaultController extends Controller
     public function  showPAction($user_id)
     {
 
-       // $myproject=$this->getDoctrine()->getRepository(Projet::class)->findBy(['etat'=>1,'master_id'=>$this->getUser()]);
-        $ownerproject=$this->getDoctrine()->getRepository(Projet::class)->findBy(['etat'=>1,'owner_id'=>$this->getUser()]);
-         //$myproject=$this->getDoctrine()->getRepository(Projet::class)->getAllP($user_id);
+
         $all = $this->getDoctrine()->getRepository(Projet::class)->getAllP($user_id);
+
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize(array($all));
+        return new JsonResponse($formatted);
+
+
+    }
+    public function  showCAction($user_id)
+    {
+
+        $all = $this->getDoctrine()->getRepository(Projet::class)->getCurrent($user_id);
+
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize(array($all));
+        return new JsonResponse($formatted);
+
+
+    }
+    public function  showCoAction($user_id)
+    {
+
+
+        $all = $this->getDoctrine()->getRepository(Projet::class)->getCompleted($user_id);
 
         $serializer = new Serializer([new ObjectNormalizer()]);
         $formatted = $serializer->normalize(array($all));

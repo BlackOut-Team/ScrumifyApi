@@ -7,12 +7,15 @@ ajout_team:
     defaults: { _controller: TeamBundle:Team:AddP }
 
 affiche_team:
-    path:     /affteam
+    path:     /affteam/{user_id}
     defaults: { _controller: TeamBundle:Team:aff }
 
 api_add:
     path:     /ajm
     defaults: { _controller: TeamBundle:Team:addT }
+api_gett:
+    path:     /gett/{id}
+    defaults: { _controller: TeamBundle:Team:affT }
 
 api_edit:
     path:     /etm/{id}

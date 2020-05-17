@@ -10,6 +10,6 @@ addSprint:
     path:   /AddSprint/{id}
     defaults: { _controller: SprintBundle:Default:AddS }
 editSprint:
-    path:   /editSprint/{sprint}
+    path:   /editSprint/{id}
     defaults: { _controller: SprintBundle:Default:editS }
 

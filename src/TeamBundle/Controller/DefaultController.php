@@ -82,7 +82,7 @@ class DefaultController extends Controller
         $user= $this->getDoctrine()->getRepository('MainBundle:User')->find($request->get('user_id'));
         $team= $this->getDoctrine()->getRepository('TeamBundle:team')->find($request->get('team_id'));
 
-        $con3 = $this->getDoctrine()->getRepository('TeamBundle:team_user')->findBy(array('teamId' => $request->get('user_id'),'userId'=>$request->get('user_id')));
+        $con3 = $this->getDoctrine()->getRepository('TeamBundle:team_user')->findBy(array('teamId' => $request->get('team_id'),'userId'=>$request->get('user_id')));
 
         if ( $con3 != null) {
 

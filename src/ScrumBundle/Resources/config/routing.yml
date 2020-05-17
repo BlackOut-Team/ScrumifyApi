@@ -4,6 +4,12 @@ addProject:
 project_homepage:
     path:   /showP/{user_id}
     defaults: { _controller: ScrumBundle:Default:showP }
+project_current:
+    path:   /showC/{user_id}
+    defaults: { _controller: ScrumBundle:Default:showC }
+project_comp:
+    path:   /showCo/{user_id}
+    defaults: { _controller: ScrumBundle:Default:showCo }
 editProject:
     path:   /EditP/{id}
     defaults: { _controller: ScrumBundle:Default:editP }
@@ -37,5 +43,11 @@ projects_new:
 fullcalendar_load_events:
     path:     /fc-load-events
     defaults: { _controller: ScrumBundle:Calendar:load}
+cal_deadlines:
+    path:     /showDeadlines/{user_id}
+    defaults: { _controller: ScrumBundle:Calendar:showD }
+cal_deadliness:
+    path:     /showDeadliness/{user_id}
+    defaults: { _controller: ScrumBundle:Calendar:showDs }
 
 

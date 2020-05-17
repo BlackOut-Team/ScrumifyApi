@@ -10,4 +10,22 @@ namespace SprintBundle\Repository;
  */
 class SprintRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getD($user,$date)
+    {
+
+
+        $qb = $this->createQueryBuilder("e");
+        $qb ->Join('ScrumBundle:Projet','p' )
+            ->Join('TeamBundle:team_user','t' )
+            ->andWhere('e.project = p.id ' )
+            ->andWhere('p.team = t.teamId')
+            ->andWhere('t.userId = :user' )
+            ->andWhere('e.duedate = :date ')
+            ->andWhere('e.etat = 1')
+            ->setParameters(array('date'=>$date , 'user'=>$user) );
+
+        return $result = $qb->getQuery()->getResult();
+
+
+    }
 }

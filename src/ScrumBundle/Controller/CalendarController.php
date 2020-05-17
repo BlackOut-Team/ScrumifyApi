@@ -6,9 +6,13 @@ namespace ScrumBundle\Controller;
 use DateTime;
 use Exception;
 use ScrumBundle\Entity\Projet;
+use SprintBundle\Entity\Sprint;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 class CalendarController extends Controller
 {
@@ -66,6 +70,30 @@ class CalendarController extends Controller
         $em->persist($event);
         $em->flush();
         return $this->render('@Scrum/indexB.html.twig');
+
+    }
+    public function  showDAction(Request $request,$user_id)
+    {
+
+        $date = $request->get('date');
+        $all = $this->getDoctrine()->getRepository(Projet::class)->getD($user_id,$date);
+
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize(array($all));
+        return new JsonResponse($formatted);
+
+
+    }
+    public function  showDsAction(Request $request,$user_id)
+    {
+
+        $date = $request->get('date');
+        $all1 = $this->getDoctrine()->getRepository(Sprint::class)->getD($user_id,$date);
+
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize(array($all1));
+        return new JsonResponse($formatted);
+
 
     }
 }

@@ -98,6 +98,7 @@ public function addTAction(Request $request){
         return new JsonResponse($formatted);
     }
 
+
     public function eTAction(Request $request, Team $team){
         $em= $this->getDoctrine()->getManager();
 
@@ -117,17 +118,26 @@ public function addTAction(Request $request){
 
     }
 
-    public function affAction(Request $request)
+    public function affAction($user_id)
     {
 
-        $con = $this->getDoctrine()->getRepository('TeamBundle:team')->findBy(array('ind' => 0));
+        $con = $this->getDoctrine()->getRepository('TeamBundle:team')->getMyTeams($user_id);
 
         $serializer = new Serializer([new ObjectNormalizer()]);
         $formatted = $serializer->normalize($con);
         return new JsonResponse($formatted);
 
     }
+    public function affTAction($id)
+    {
 
+        $con = $this->getDoctrine()->getRepository('TeamBundle:team')->find($id);
+
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($con);
+        return new JsonResponse($formatted);
+
+    }
     public function affBAction(Request $request)
     {
         $p = new team();
