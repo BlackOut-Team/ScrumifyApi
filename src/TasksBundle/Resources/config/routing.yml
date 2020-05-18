@@ -8,11 +8,11 @@ show_tasks:
     path:     /showTasks/{id}
     defaults: { _controller: TasksBundle:Tasks:showTasks }
 edit_tasks:
-    path:     /editTasks/{id}
-    defaults: { _controller: TasksBundle:Tasks:edit }
+    path:     /editTasks/{Id}
+    defaults: { _controller: TasksBundle:Service:edit }
 archiver_tasks:
     path:     /archiveTasks/{id}
-    defaults: { _controller: TasksBundle:Tasks:archiver }
+    defaults: { _controller: TasksBundle:Service:archive }
 statut_task:
     path:     /statutTask/{id}/{statut}
     defaults: { _controller: TasksBundle:Tasks:changeStatus }

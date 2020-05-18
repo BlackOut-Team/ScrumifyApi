@@ -6,7 +6,10 @@ use MainBundle\Entity\User;
 use MyAppMailBundle\Entity\Mail;
 use MyAppMailBundle\Form\MailType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 use TasksBundle\Entity\Media;
 use TasksBundle\Entity\Tasks;
 use TasksBundle\Form\TasksType;
@@ -29,36 +32,37 @@ class TasksController extends Controller
 
 
 
-    public function editAction(Request $request, Tasks $task){
-        $em= $this->getDoctrine()->getManager();
-        $m =$em->getRepository('TasksBundle:Media')->findby(array('tasks'=>$task->getId()));
-        $editForm=$this->createForm('TasksBundle\Form\TasksType',$task);
-        $editForm->handleRequest($request);
-        $media = new Media();
+    public function editAction(Request $request, $Id){
+        $em=$this->getDoctrine()->getManager();
+        $find=  $this->getDoctrine()->getManager()->getRepository('TasksBundle:Tasks')->find($Id);
 
-        if($editForm->isSubmitted() && $editForm->isValid())
-        {
-            $media->setPath($request->files->get('file'));
-            $this->getDoctrine()->getManager()->flush();
-            $this->addMedia($request, $media,$task);
-            $task->setUpdated(new \DateTime('now'));
-            return $this->redirectToRoute('show_tasks',array('id' => $task->getUserstory()->getId()));
-        }
-        return $this->render('@Tasks/Tasks/edit.html.twig', array(
-            'edit_form' => $editForm->createView() ,'m'=>$m
-        ));
-    }
+            $find->setTitle($request->get('title'));
+            $find->setDescription($request->get('description'));
 
-    public function archiverAction(Request $request, Tasks $task){
-
-        $em= $this->getDoctrine()->getManager();
-        $task->setEtat(1);
-        $em->persist($task);
+        $em->persist($find);
         $em->flush();
-        return $this->redirectToRoute('show_tasks',array('id' => $task->getUserstory()->getId()));
-
-
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($find);
+        return new JsonResponse($formatted);
     }
+
+
+        public function archiveAction($id)
+        {
+            $em=$this->getDoctrine()->getManager();
+            $find=  $this->getDoctrine()->getManager()->getRepository('TasksBundle:Tasks')->find($id);
+
+                $find->setEtat(1);
+
+
+            $em->persist($find);
+            $em->flush();
+            $serializer = new Serializer([new ObjectNormalizer()]);
+            $formatted = $serializer->normalize($find);
+            return new JsonResponse($formatted);
+        }
+
+
     public function desarchiverAction(Request $request, Tasks $pp){
 
         $em= $this->getDoctrine()->getManager();

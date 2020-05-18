@@ -4,6 +4,7 @@ namespace ScrumBundle\Controller;
 
 use CMEN\GoogleChartsBundle\GoogleCharts\Charts\ColumnChart;
 use CMEN\GoogleChartsBundle\GoogleCharts\Charts\PieChart;
+use DateTime;
 use Github\Api\User;
 use Proxies\__CG__\TeamBundle\Entity\team;
 use ScrumBundle\Entity\Projet;
@@ -29,13 +30,16 @@ class DefaultController extends Controller
 
 
         $p= new Projet();
-        $duedate= new \DateTime($request->get('duedate'));
-        $now = new \DateTime('now');
+        try {
+            $duedate = new DateTime($request->get('duedate'));
+        } catch (\Exception $e) {
+        }
+        $now = new DateTime('now');
 
         if($duedate > $now) {
 
             $em = $this->getDoctrine()->getManager();
-             $p->setCreated(new \DateTime('now'));
+             $p->setCreated(new DateTime('now'));
             $p->setMasterId($this->getUser());
             $p->setEtat(1);
             $p->setName($request->get('name'));
@@ -72,7 +76,10 @@ class DefaultController extends Controller
     }
     public function editPAction(Request $request,  $id){
         $project = $this->getDoctrine()->getRepository(Projet::class)->find($id);
-        $duedate= new \DateTime($request->get('duedate'));
+        var_dump($project);
+
+            $duedate = new DateTime($request->get('duedate'));
+
         $now = $project->getCreated();
 
         if($duedate > $now) {
@@ -82,7 +89,10 @@ class DefaultController extends Controller
             $this->getDoctrine()->getManager()->flush();
             $project->setName($request->get('name'));
             $project->setDescription($request->get('description'));
-            $project->setDuedate(new \DateTime($request->get('duedate')));
+            try {
+                $project->setDuedate(new DateTime($request->get('duedate')));
+            } catch (\Exception $e) {
+            }
             $team = $em->getRepository(team::class)->find($request->get('team_id'));
             $project->setTeam($team);
             $em->flush($project);

@@ -5,6 +5,7 @@ namespace ActivityBundle\Controller;
 use ActivityBundle\Entity\Activity;
 use ActivityBundle\Entity\Meetings;
 use ActivityBundle\Form\MeetingsType;
+use DateTime;
 use Doctrine\ORM\EntityRepository;
 use ScrumBundle\Entity\Projet;
 use SprintBundle\Entity\Sprint;
@@ -108,8 +109,11 @@ class MeetingsController extends Controller
 
 
         $m = new Meetings();
-        $date = new \DateTime($request->get('date'));
-        $now = new \DateTime('now');
+        try {
+            $date = new DateTime($request->get('date'));
+        } catch (\Exception $e) {
+        }
+        $now = new DateTime('now');
 
         if ($date > $now) {
 
@@ -146,15 +150,14 @@ class MeetingsController extends Controller
             return new JsonResponse($formatted);
 
     }
-    function modifierAction($id, Request $request)
+    function modifierAction(Request $request,$id)
     {
-        $date = new \DateTime($request->get('date'));
-        $now = new \DateTime('now');
+        $date = new DateTime($request->get('date'));
+        $now = new DateTime('now');
 
         if ($date > $now) {
             $em = $this->getDoctrine()->getManager();
-            $m = $em->getRepository(Meetings::class)
-                ->find($id);
+            $m = $em->getRepository(Meetings::class)->find($id);
             $m->setName($request->get('name'));
             $m->setPlace($request->get('place'));
             $m->setType($request->get('type'));

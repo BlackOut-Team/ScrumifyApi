@@ -58,21 +58,36 @@ class ServiceController extends Controller
         return new JsonResponse($formatted);
     }
 
-    public function updatedAction($Id,Request $request)
-    {
+    public function editAction(Request $request, $Id){
         $em=$this->getDoctrine()->getManager();
-        $find=  $this->getDoctrine()->getManager()->getRepository('TasksBundle:Tasks')->findBy(array('idT'=>$Id));
-        foreach($find as $fin)
-        {
-            $fin->setTitle($request->get('title'));
-            $fin->setDescription($request->get('description'));
-        }
-        $em->persist($fin);
+        $find=  $this->getDoctrine()->getManager()->getRepository('TasksBundle:Tasks')->find($Id);
+
+        $find->setTitle($request->get('title'));
+        $find->setDescription($request->get('description'));
+
+        $em->persist($find);
         $em->flush();
         $serializer = new Serializer([new ObjectNormalizer()]);
         $formatted = $serializer->normalize($find);
         return new JsonResponse($formatted);
     }
+
+
+    public function archiveAction($id)
+    {
+        $em=$this->getDoctrine()->getManager();
+        $find=  $this->getDoctrine()->getManager()->getRepository('TasksBundle:Tasks')->find($id);
+
+        $find->setEtat(1);
+
+
+        $em->persist($find);
+        $em->flush();
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($find);
+        return new JsonResponse($formatted);
+    }
+
 
     public function SupprimerAction($Id)
     {

@@ -3,6 +3,7 @@
 namespace SprintBundle\Controller;
 
 use DateTime;
+use Elastica\Processor\Date;
 use ScrumBundle\Entity\Projet;
 use SprintBundle\Entity\Sprint;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -68,7 +69,7 @@ class DefaultController extends Controller
     }
     public function editSAction(Request $request, $id){
         $sprint = $this->getDoctrine()->getRepository(Sprint::class)->find($id);
-        $duedate= new \DateTime($request->get('duedate'));
+        $duedate= new DateTime($request->get('duedate'));
         $now = $sprint->getCreated();
 
         if($duedate > $now) {
