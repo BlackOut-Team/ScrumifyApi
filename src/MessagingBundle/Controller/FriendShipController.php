@@ -2,10 +2,13 @@
 
 namespace MessagingBundle\Controller;
 
+use MainBundle\Entity\User;
 use MessagingBundle\Entity\FriendShip;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 class FriendShipController extends Controller
 {
@@ -57,5 +60,21 @@ class FriendShipController extends Controller
         $request->setIsFriend(1);
         $em->flush();
         return $this->redirectToRoute('create_thread',['id' => $id ] );
+    }
+
+    public function getFriendsAction($id){
+        $friend = $this->getDoctrine()->getRepository(FriendShip::class)->getFriends($id);
+        if($friend != null) {
+            $serializer = new Serializer([new ObjectNormalizer()]);
+            $formatted = $serializer->normalize($friend);
+            return new JsonResponse($formatted);
+        }
+        else
+        {
+            $serializer = new Serializer([new ObjectNormalizer()]);
+            $formatted = $serializer->normalize(array("empty"));
+            return new JsonResponse($formatted);
+        }
+
     }
 }

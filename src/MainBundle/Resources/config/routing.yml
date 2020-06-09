@@ -1,9 +1,30 @@
 homepage:
   path:     /
   defaults: { _controller: MainBundle:Default:index }
+homepagee:
+  path:     /home
+  defaults: { _controller: MainBundle:Default:indexback }
 homepageback:
   path:     /dashboard
   defaults: { _controller: MainBundle:Default:dashboard }
-login:
-  path:     /account/login
-  defaults: { _controller: MainBundle:Default:login }
+register:
+  path:     /register
+  defaults: { _controller: MainBundle:Registration:register }
+confirm:
+  path:     /register/confirm/{token}
+  defaults: { _controller: MainBundle:Registration:confirm }
+confirmed:
+  path:     /register/confirmed/{token}
+  defaults: { _controller: MainBundle:Registration:confirmed }
+done:
+  path:     /register/done/{token}
+  defaults: { _controller: MainBundle:Registration:done }
+profile:
+  path:     /account/profile
+  defaults: { _controller: MainBundle:Profile:show }
+edit:
+  path:     /account/profile/edit/{id}
+  defaults: { _controller: MainBundle:Profile:edit }
+editA:
+  path:     /account/avatar/{id}
+  defaults: { _controller: MainBundle:Profile:editAvatar }

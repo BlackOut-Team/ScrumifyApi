@@ -10,4 +10,18 @@ namespace MessagingBundle\Repository;
  */
 class FriendShipRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getFriends($user)
+    {
+
+        $qb = $this->getEntityManager()
+       ->createQuery("SELECT t
+                                     FROM MainBundle\Entity\User t , MessagingBundle\Entity\FriendShip e
+                                     WHERE t.id = e.friend and e.user = :user and e.isFriend = 1");
+        $qb->setParameter('user', $user);
+        $result = $qb->getOneOrNullResult();
+        return $result;
+
+
+
+    }
 }

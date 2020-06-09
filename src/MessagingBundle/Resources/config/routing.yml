@@ -26,3 +26,6 @@ DisplayUsers:
 AddFriend:
     path: /add_friend/{id}
     defaults:   {_controller: MessagingBundle:FriendShip:AddFriend}
+getFriend:
+    path: /friends/{id}
+    defaults:   {_controller: MessagingBundle:FriendShip:getFriends}

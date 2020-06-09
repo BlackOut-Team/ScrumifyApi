@@ -75,3 +75,6 @@ services:
     ScrumBundle\EventListener\FullCalendarListener:
         tags:
             - { name: 'kernel.event_listener', event: 'fullcalendar.set_data', method: loadEvents }
+    MainBundle\Controller\ProfileController:
+        arguments:
+            $formFactory: '@fos_user.profile.form.factory'

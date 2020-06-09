@@ -215,7 +215,7 @@
                                         </tr>
                                         <tr>
                                             <td valign="middle" width="100%" style="text-align: center; font-family: Helvetica, Arial, sans-serif, 'Open Sans'; font-size: 46px; color: #ffffff; line-height: 50px; font-weight: 300;" id="box3" class="fullCenter">
-                                                Welcome to   <span style="font-weight: 600;">Scrumify {{ user }}.</span>
+                                                    Welcome to   <span style="font-weight: 600;">Scrumify {{ user }}.</span>
 
 
                                             </td>
@@ -240,7 +240,7 @@
                                                     <tr>
                                                         <td width="30" class="erase"></td>
                                                         <td width="540" style="text-align: center; font-family: Helvetica, Arial, sans-serif, 'Open Sans'; font-size: 14px; color: #ffffff; line-height: 24px; font-weight: 400;" class="fullCenter" id="box2">
-                                                            Account activated ! You can now sign in
+                                                            Thanks for registration , you need to confirm your email to activate your Scrumify account.
                                                         </td>
                                                         <td width="30" class="erase"></td>
                                                     </tr>
@@ -269,7 +269,7 @@
                                                 <table border="0" cellpadding="0" cellspacing="0" align="center" class="buttonScale">
                                                     <tr>
                                                         <td width="auto" align="center" height="40" bgcolor="#344b61" style="border-top-left-radius: 20px; border-top-right-radius: 20px; border-bottom-right-radius: 20px; border-bottom-left-radius: 20px; padding-left: 40px; padding-right: 40px; font-weight: 600; font-family: Helvetica, Arial, sans-serif, 'Open Sans'; color: #ffffff;">
-                                                            <a href="{{ path('homepagee' )  }}" style="color: #ffffff; font-size: 14px; text-decoration: none; line-height: 34px; width: 100%;">Sign in  now</a>
+                                                            <a href="{{ path('confirmed', {'token':token}) }}" style="color: #ffffff; font-size: 14px; text-decoration: none; line-height: 34px; width: 100%;">Activate now</a>
                                                         </td>
                                                     </tr>
                                                 </table>

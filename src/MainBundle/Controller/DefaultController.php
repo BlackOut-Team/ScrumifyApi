@@ -13,8 +13,7 @@ use Symfony\Component\Serializer\Serializer;
 class DefaultController extends Controller
 {
 
-    public function indexAction
-        (Request $request){
+    public function indexAction(Request $request){
 
             $username = $request->query->get('username');
 
@@ -40,7 +39,7 @@ class DefaultController extends Controller
     }
     public function indexbackAction()
     {
-        return $this->render('@Main/Default/indexback.html.twig');
+        return $this->render('@Main/Default/index.html.twig');
     }
 
     public function loginAction()
