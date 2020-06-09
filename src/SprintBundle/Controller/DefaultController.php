@@ -92,9 +92,9 @@ class DefaultController extends Controller
 
     }
 
-    public function  showSprintsAction(Projet $projet){
+    public function  showSprintsAction($id){
 
-        $sprint=$this->getDoctrine()->getRepository(Sprint::class)->findBy(array('project'=>$projet->getId(),'etat'=>1));
+        $sprint=$this->getDoctrine()->getRepository(Sprint::class)->findBy(array('project'=>$id,'etat'=>1));
 
         $serializer = new Serializer([new ObjectNormalizer()]);
         $formatted = $serializer->normalize(array($sprint));
