@@ -9,7 +9,9 @@ if ((($_FILES["file"]["type"] == "image/gif") || ($_FILES["file"]["type"] == "im
         echo json_encode($named_array);
     } else {
         move_uploaded_file($_FILES["file"]["tmp_name"], "C:\wamp64\www\Scrumify\web\uploads\images/" . $_FILES["file"]["name"]);
-
+        $objInputStream = fopen("C:\wamp64\www\Scrumify\web\uploads\images/" . $_FILES["file"]["name"], "rb");
+        $objTempStream = fopen("C:\Users\Amira Doghri\Documents/3A-2S\JavaFX\ScrumifyD\src\scrumifyd\uploads\images/" . $_FILES["file"]["name"], "w+b");
+        stream_copy_to_stream($objInputStream,$objTempStream );
         $Path = $_FILES["file"]["name"];
         $named_array = array("Response" => array(array("Status" => "ok")));
         echo json_encode($named_array);

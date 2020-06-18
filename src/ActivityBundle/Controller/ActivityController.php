@@ -4,6 +4,7 @@ namespace ActivityBundle\Controller;
 
 use ActivityBundle\Entity\Activity;
 use ActivityBundle\Entity\Meetings;
+use ActivityBundle\Repository\ActivityRepository;
 use FOS\UserBundle\Model\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -17,36 +18,37 @@ class ActivityController extends Controller
 {
 
 
-    public function AfficherAction()
+    public function AfficherAction(Request $request)
     {
-        $Activities=$this->getDoctrine()
-            ->getRepository(Activity::class)
-            ->findAll();
+        $teamRepository = $this->getDoctrine()->getManager()->getRepository(Activity::class);
+        $Activities=$teamRepository->findActivities($request->get('id'));
 
-        $meeting=$this->getDoctrine()
-            ->getRepository(Meetings::class)
-            ->findAll();
-        return $this->render('@Activity/Default/activity.html.twig',
-            array('activities'=>$Activities,'m'=>$meeting));
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize(array($Activities));
+        return new JsonResponse($formatted);
     }
-    function SupprimerAction($id,$project_id){
+    function SupprimerAction(Request $request){
         $em=$this->getDoctrine()->getManager();
         $Activity=$em->getRepository(Activity::class)
-            ->find($id);
+            ->find($request->get('id'));
         $em->remove($Activity);
         $em->flush();
-        return $this->redirectToRoute('affichermeeting', ['id' => $project_id]);
 
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize('success');
+        return new JsonResponse($formatted);
     }
-    public function ChangeActivityStateAction($id, $project_id){
+    public function ChangeActivityStateAction(Request $request){
         $em = $this->getDoctrine()->getManager();
-        $activity = $em->getRepository(Activity::class)
-            ->find($id);
+        $activity=$em->getRepository(Activity::class)
+            ->find($request->get('id'));
         $activity->setViewed(1);
         $em->flush();
-        return $this->redirectToRoute('affichermeeting', ['id' => $project_id]);
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize('success');
+        return new JsonResponse($formatted);
     }
-    public function getNotifAction(Request $request){
+   /* public function getNotifAction(Request $request){
         if ($request->isXmlHttpRequest() ) {
 
             //convertir entity array -> json pour l'envoyer lel ajax
@@ -73,5 +75,5 @@ class ActivityController extends Controller
 
         return false ;
 
-    }
+    }*/
 }

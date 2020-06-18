@@ -3,6 +3,10 @@
 namespace UserstoryBundle\Controller;
 
 use SprintBundle\Entity\Sprint;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 use UserstoryBundle\Entity\feature;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -168,4 +172,70 @@ class featureController extends Controller
 
         ));
     }
-}
+
+    public function allAction(){
+
+        $em = $this->getDoctrine()->getManager();
+        $feature = $em->getRepository('UserstoryBundle:feature')->findAll();
+
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize(array($feature));
+        return new JsonResponse($formatted);
+
+    }
+
+    public function usersaddAction(Request $request){
+
+
+        $feature = new Feature();
+
+        $feature->setName($request->get('name'));
+        $feature->setEtat($request->get('etat'));
+        $feature->setIsDeleted(0);
+        $feature->setSprint($request->get('sprint_id'));
+
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($feature);
+        $em->flush($feature);
+
+        $serializer = new Serializer([new DateTimeNormalizer(), new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($feature);
+        return new JsonResponse($formatted);
+
+    }
+    public function editMAction(Request $request, $id) {
+
+        $feature = $this->getDoctrine()->getRepository(feature::class)->find($id);
+
+
+
+
+            $em = $this->getDoctrine()->getManager();
+
+            $this->getDoctrine()->getManager()->flush();
+            $feature->setName($request->get('name'));
+            $feature->setEtat($request->get('etat'));
+
+
+            $em->flush($feature);
+            $serializer = new Serializer([new ObjectNormalizer()]);
+            $formatted = $serializer->normalize($feature);
+            return new JsonResponse($formatted);
+
+    }
+
+    public function deleteMAction(Request $request, Feature $feature)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $feature->setIsDeleted(1);
+        $em->persist($feature);
+        $em->flush();
+        $serializer = new Serializer([new DateTimeNormalizer(), new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($feature);
+        return new JsonResponse($formatted);
+    }
+
+
+
+    }

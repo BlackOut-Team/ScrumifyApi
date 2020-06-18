@@ -3,6 +3,7 @@
 namespace MainBundle\Controller;
 
 use CMEN\GoogleChartsBundle\GoogleCharts\Charts\PieChart;
+use MainBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -91,6 +92,13 @@ class DefaultController extends Controller
         $formatted = $serializer->normalize(array(true));
         return new JsonResponse($formatted);
 
+
+    }
+    public function  getUserNAction(Request $request){
+        $user = $this->getDoctrine()->getRepository(User::class)->find($request->get('id'));
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize(array($user));
+        return new JsonResponse($formatted);
 
     }
 

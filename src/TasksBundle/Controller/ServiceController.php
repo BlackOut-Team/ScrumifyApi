@@ -101,6 +101,41 @@ class ServiceController extends Controller
         $formatted = $serializer->normalize($find);
         return new JsonResponse($formatted);
     }
+    public function showTodoAction(Request $request){
+        $em= $this->getDoctrine()->getManager();
 
+        $Tasks =$em->getRepository('TasksBundle:Tasks')->findBy(['etat'=>0,'status'=>'Todo'],['priority' => 'ASC']);
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($Tasks);
+        return new JsonResponse($formatted);
+    }
+
+    public function showDoneAction(Request $request){
+        $em= $this->getDoctrine()->getManager();
+        $Tasks2 =$em->getRepository('TasksBundle:Tasks')->findBy(['etat'=>0,'status'=>'Done'],['priority' => 'ASC']);
+
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($Tasks2);
+        return new JsonResponse($formatted);
+
+    }
+    public function showBlockAction(Request $request){
+        $em= $this->getDoctrine()->getManager();
+        $Tasks3 =$em->getRepository('TasksBundle:Tasks')->findBy(['etat'=>0,'status'=>'Block'],['priority' => 'ASC']);
+
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($Tasks3);
+        return new JsonResponse($formatted);
+
+    }
+    public function showDoingAction(Request $request){
+        $em= $this->getDoctrine()->getManager();
+
+        $Tasks1 =$em->getRepository('TasksBundle:Tasks')->findBy(['etat'=>0,'status'=>'Doing'],['priority' => 'ASC']);
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($Tasks1);
+        return new JsonResponse($formatted);
+
+    }
 
 }

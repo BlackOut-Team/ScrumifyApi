@@ -31,3 +31,15 @@ Taskaffmobile:
 addTaskmobile:
     path:   /new
     defaults: { _controller: TasksBundle:Service:new }
+showDoing:
+    path:   /showDoing
+    defaults: { _controller: TasksBundle:Service:showDoing }
+showTodo:
+    path:   /showTodo
+    defaults: { _controller: TasksBundle:Service:showTodo }
+showDone:
+    path:   /showDone
+    defaults: { _controller: TasksBundle:Service:showDone }
+showBlock:
+    path:   /showBlock
+    defaults: { _controller: TasksBundle:Service:showBlock }

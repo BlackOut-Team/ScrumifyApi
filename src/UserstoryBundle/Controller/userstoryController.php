@@ -5,6 +5,10 @@ namespace UserstoryBundle\Controller;
 use http\Env\Response;
 use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use PHPMailer\PHPMailer\PHPMailer;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 use UserstoryBundle\Entity\feature;
 use UserstoryBundle\Entity\userstory;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -250,6 +254,76 @@ class userstoryController extends Controller
 
 
     }
+
+
+    public function allAction(){
+
+        $em = $this->getDoctrine()->getManager();
+        $userstories = $em->getRepository('UserstoryBundle:userstory')->findAll();
+
+        $serializer = new Serializer([new DateTimeNormalizer(), new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($userstories);
+        return new JsonResponse($formatted);
+
+    }
+
+    public function usersaddAction(Request $request){
+
+
+        $userstory = new userstory();
+
+        $userstory->setDescription($request->get('description'));
+        $userstory->setPriority($request->get('priority'));
+        $userstory->setIsDeleted(0);
+        $userstory->setEtat($request->get('etat'));
+        $userstory->setStoryPoint($request->get('story_point'));
+
+
+
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($userstory);
+        $em->flush($userstory);
+
+        $serializer = new Serializer([new DateTimeNormalizer(), new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($userstory);
+        return new JsonResponse($formatted);
+
+    }
+    public function editMAction(Request $request, $id) {
+
+        $userstory = $this->getDoctrine()->getRepository(userstory::class)->find($id);
+
+
+
+
+        $em = $this->getDoctrine()->getManager();
+
+        $this->getDoctrine()->getManager()->flush();
+        $userstory->setDescription($request->get('description'));
+        $userstory->setPriority($request->get('priority'));
+        $userstory->setEtat($request->get('etat'));
+        $userstory->setStoryPoint($request->get('story_point'));
+
+
+        $em->flush($userstory);
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($userstory);
+        return new JsonResponse($formatted);
+
+    }
+
+    public function deleteMAction(Request $request, Feature $userstory)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $userstory->setIsDeleted(1);
+        $em->persist($userstory);
+        $em->flush();
+        $serializer = new Serializer([new DateTimeNormalizer(), new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($userstory);
+        return new JsonResponse($formatted);
+    }
+
 
 
 }

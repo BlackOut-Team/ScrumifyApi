@@ -67,7 +67,30 @@ ajax_search:
 deleted_feature:
     path:     /deletedf
     defaults: { _controller: UserstoryBundle:feature:getDeletedfeature }
-
+all_feature:
+    path:     /allFeature
+    defaults: { _controller: UserstoryBundle:feature:all }
+addm_feature:
+    path:     /addFeature
+    defaults: { _controller: UserstoryBundle:feature:usersadd }
+editM_feature:
+    path:     /editFeature/{id}
+    defaults: { _controller: UserstoryBundle:feature:editM }
+deleteM_feature:
+    path:     /deleteM/{id}
+    defaults: { _controller: UserstoryBundle:feature:deleteM }
+all_userstory:
+    path:     /allUserstory
+    defaults: { _controller: UserstoryBundle:userstory:all }
+addM_userstory:
+    path:     /addUserstory
+    defaults: { _controller: UserstoryBundle:userstory:usersadd }
+editM_userstory:
+    path:     /editUserstory/{id}
+    defaults: { _controller: UserstoryBundle:userstory:editM }
+deleteM_userstory:
+    path:     /deleteMUserstory/{id}
+    defaults: { _controller: UserstoryBundle:userstory:deleteM }
 
 
 

@@ -28,3 +28,6 @@ edit:
 editA:
   path:     /account/avatar/{id}
   defaults: { _controller: MainBundle:Profile:editAvatar }
+getU:
+  path:     /account/u
+  defaults: { _controller: MainBundle:Default:getUserN }

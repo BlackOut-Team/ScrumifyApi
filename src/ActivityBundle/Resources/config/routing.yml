@@ -2,9 +2,15 @@ activity_homepage:
     path:     /afficher_activite
     defaults: { _controller: ActivityBundle:Activity:Afficher }
 delete_activity:
-    path:     /delete_activity/{id}{project_id}
+    path:     /delete_activity
     defaults: { _controller: ActivityBundle:Activity:Supprimer}
-
+ChangeActivityState:
+    path:   /change_activity
+    defaults: { _controller: ActivityBundle:Activity:ChangeActivityState}
+getNotif:
+    path:   /getNotif
+    defaults: { _controller: ActivityBundle:Activity:getNotif}
+    methods: [post]
 ajoutermeeting:
     path:     /ajouter_meetings
     defaults: { _controller: ActivityBundle:Meetings:ajouter }
@@ -17,14 +23,6 @@ delete_meeting:
 update_meeting:
     path:     /update_meeting/{id}
     defaults: { _controller: ActivityBundle:Meetings:modifier}
-ChangeActivityState:
-    path:   /change_activity/{id}{project_id}
-    defaults: { _controller: ActivityBundle:Activity:ChangeActivityState}
-getNotif:
-    path:   /getNotif
-    defaults: { _controller: ActivityBundle:Activity:getNotif}
-    methods: [post]
-
 ajouterMeeting:
     path:   /Meeting/Add
     defaults: { _controller: ActivityBundle:Meetings:ajouterMeeting}

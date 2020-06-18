@@ -2,6 +2,10 @@
 
 namespace ActivityBundle\Repository;
 
+
+use TeamBundle\Entity\team;
+use TeamBundle\Repository\teamRepository;
+
 /**
  * ActivityRepository
  *
@@ -10,4 +14,17 @@ namespace ActivityBundle\Repository;
  */
 class ActivityRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    public function findActivities($user)
+    {
+
+
+            $qb = $this->createQueryBuilder("e");
+            $qb->select('e')
+                ->join('TeamBundle:team_user', 't', 'WITH', 't.userId = :user')
+                ->setParameter('user', $user);
+        return    $result = $qb->getQuery()->getResult();
+
+
+    }
 }
